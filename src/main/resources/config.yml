@@ -1,0 +1,2118 @@
+# ============================================================
+#  CoinShop - Einstellungen
+#  Nach Änderungen im Spiel / in der Konsole: /coinsadmin reload
+#  Hinweis: Wenn du eine alte config.yml hast, lösche sie einmal
+#  (plugins/CoinShop/config.yml), damit diese neue erzeugt wird.
+# ============================================================
+
+# ---------------- Erfolge (Achievements) ----------------
+# Je schwieriger der Erfolg, desto mehr Coins. So wird die Belohnung bestimmt:
+#   1. Steht der Erfolg unter "overrides"            -> genau dieser Betrag
+#   2. Steht er in der Liste "advancements" einer Stufe -> Belohnung dieser Stufe
+#   3. Sonst nach Art des Erfolgs im Spiel (Aufgabe / Ziel / Herausforderung, siehe type-tiers)
+# Erfolge heißen so wie im Spiel, z. B. "minecraft:story/mine_diamond".
+# (Namen, die es nicht gibt, schaden nicht - sie werden einfach nie getroffen.)
+achievements:
+  enabled: true
+  # Welche Stufe gilt standardmäßig für welche Art von Erfolg
+  type-tiers:
+    task: leicht          # normale Aufgabe (eckiges Symbol)
+    goal: mittel          # Ziel (abgerundetes Symbol)
+    challenge: schwer     # Herausforderung (gezacktes Symbol)
+  tiers:
+    leicht: {name: "Leicht", reward: 15}
+    mittel: {name: "Mittel", reward: 40}
+    schwer: {name: "Schwer", reward: 120}
+    # Besonders schwierige Erfolge (handverlesen, zählt vor der Art des Erfolgs)
+    sehr-schwer:
+      name: "Sehr schwer"
+      reward: 300
+      advancements:
+        - "minecraft:end/kill_dragon"
+        - "minecraft:end/dragon_egg"
+        - "minecraft:end/elytra"
+        - "minecraft:end/respawn_dragon"
+        - "minecraft:end/dragon_breath"
+        - "minecraft:nether/summon_wither"
+        - "minecraft:nether/get_wither_skull"
+        - "minecraft:nether/create_beacon"
+        - "minecraft:nether/netherite_armor"
+        - "minecraft:nether/obtain_ancient_debris"
+        - "minecraft:nether/uneasy_alliance"
+        - "minecraft:nether/ride_strider_in_overworld_lava"
+        - "minecraft:adventure/totem_of_undying"
+        - "minecraft:adventure/hero_of_the_village"
+        - "minecraft:adventure/very_very_frightening"
+        - "minecraft:adventure/sniper_duel"
+        - "minecraft:adventure/arbalistic"
+        - "minecraft:adventure/spyglass_at_dragon"
+        - "minecraft:adventure/overoverkill"
+        - "minecraft:husbandry/obtain_netherite_hoe"
+    extrem:
+      name: "Extrem"
+      reward: 700
+      advancements:
+        - "minecraft:adventure/kill_all_mobs"
+        - "minecraft:adventure/adventuring_time"
+        - "minecraft:adventure/trim_with_all_exclusive_armor_patterns"
+        - "minecraft:nether/all_effects"
+        - "minecraft:nether/all_potions"
+        - "minecraft:nether/create_full_beacon"
+        - "minecraft:husbandry/bred_all_animals"
+        - "minecraft:husbandry/complete_catalogue"
+        - "minecraft:husbandry/balanced_diet"
+        - "minecraft:husbandry/leash_all_frog_variants"
+        - "minecraft:husbandry/whole_pack"
+  # Einzelne Erfolge mit einem festen Betrag (hat Vorrang vor allem anderen). Beispiel:
+  overrides:
+    # "minecraft:story/mine_diamond": 50
+
+# Geheime Erfolge (neu gewichtet in 40.5: Aufwand und Zufall entscheiden): Belohnung je nach Schwierigkeit ("tier" ist nur der angezeigte Name der Stufe).
+# Namen und Beschreibungen stehen in messages.yml unter "secret".
+secret-achievements:
+  kleiner-fisch:  {tier: leicht, coins: 25}
+  grosser-fisch:  {tier: schwer, coins: 250}
+  blumentopf:     {tier: leicht, coins: 15}
+  phantom:        {tier: mittel, coins: 50}
+  bier:           {tier: leicht, coins: 25}
+  fledermaus:     {tier: leicht, coins: 20}
+  baby-zombie:    {tier: mittel, coins: 40}
+  ei:             {tier: mittel, coins: 60}
+  lohenrute:      {tier: schwer, coins: 100}
+  baby-villager:  {tier: leicht, coins: 20}
+  teppich:        {tier: leicht, coins: 15}
+  frosch:         {tier: mittel, coins: 60}
+  schwein:        {tier: leicht, coins: 25}
+  kante:          {tier: schwer, coins: 100}
+  gegengamble:    {tier: mittel, coins: 60}
+  emma:           {tier: leicht, coins: 20}
+  vanilletee:     {tier: mittel, coins: 30}
+  schokolade:     {tier: leicht, coins: 20}
+  mayonnaise:     {tier: leicht, coins: 15}
+  # Gegengamble: so viele Sekunden darf zwischen Verlust und neuem Casino-Spiel liegen
+  gegengamble-seconds: 60
+
+# ---------------- Ranglisten ----------------
+# Die Zahlen kommen aus den normalen Minecraft-Statistiken (auch von VOR der Plugin-Installation).
+# Die Top 5 jeder Rangliste bekommen dieses Bonus-Einkommen pro Tag (Platz 1, 2, 3, 4, 5):
+rankings:
+  bonus: [10, 5, 3, 2, 1]
+  # "Wenigste Tode" zählt nur Spieler mit mindestens so vielen Minuten Spielzeit
+  min-playtime-minutes: 120
+  # Wie oft die Statistiken der Online-Spieler eingelesen werden
+  sync-seconds: 120
+  # Sonntags beim Shop-Wechsel: Mystery Boxen für die Spitze jeder Rangliste (Platz 1, 2, 3)
+  weekly-boxes: true
+  box-tiers: [2, 1, 1]
+
+# ---------------- Nachteilsausgleich ----------------
+# Spielzeit-Konto: wer diese Woche wenig gespielt hat, bekommt Zuschlag auf Aufgaben- und Expeditions-Belohnungen
+playtime-account:
+  enabled: true
+  full-hours: 10       # ab so vielen Stunden pro Woche gibt es keinen Zuschlag mehr
+  max-percent: 50      # Zuschlag bei 0 Stunden (sinkt gleichmaessig bis full-hours)
+# Willkommen zurueck: wer lange weg war, bekommt beim Wiederkommen Coins und eine Mystery Box
+welcome-back:
+  enabled: true
+  min-days: 7
+  base: 100
+  per-day: 10
+  max-days: 30
+  box-tier: 1
+# Ruhemodus: friert die Login-Serie ein (Serien-Bonus nur zur Haelfte), z. B. im Urlaub
+rest-mode:
+  enabled: true
+  max-days: 30
+  cooldown-days: 30    # so lange nach dem Ende kann man ihn nicht erneut einschalten
+  bonus-percent: 50
+# Gnadentag: ein verpasster Tag unterbricht die Login-Serie nicht (hoechstens einmal pro Woche)
+login-streak-grace:
+  enabled: true
+  min-days-between: 7
+
+# ---------------- Kollektionen ----------------
+# Wer ALLE Items einer Kollektion schon einmal besessen hat (Inventar, Endertruhe, aufgesammelt oder
+# hergestellt), bekommt einmalig die Belohnung. Mit * kannst du Gruppen angeben, z. B. "MUSIC_DISC_*".
+# Eigene Kollektionen: einfach einen neuen Eintrag anhängen (Namen der Items wie bei den Preisen).
+# Mit "entity:NAME" (z. B. "entity:ZOMBIE") sind es Kreaturen: Sie zählen, wenn du sie getötet oder
+# durch ein Fernglas angesehen hast.
+collections:
+  schallplatten:
+    name: "Schallplatten"
+    icon: MUSIC_DISC_CAT
+    reward: 8000
+    items: ["MUSIC_DISC_*"]
+  ruestungsverzierungen:
+    name: "Rüstungsverzierungen"
+    icon: SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE
+    reward: 15000
+    items: ["*_ARMOR_TRIM_SMITHING_TEMPLATE"]
+  keramikscherben:
+    name: "Keramikscherben"
+    icon: ARCHER_POTTERY_SHERD
+    reward: 6000
+    items: ["*_POTTERY_SHERD"]
+  koepfe:
+    name: "Köpfe und Schädel"
+    icon: ZOMBIE_HEAD
+    reward: 6000
+    items: [SKELETON_SKULL, WITHER_SKELETON_SKULL, ZOMBIE_HEAD, CREEPER_HEAD, PIGLIN_HEAD, DRAGON_HEAD]
+  lichtquellen:
+    name: "Lichtquellen"
+    icon: LANTERN
+    reward: 4000
+    items: [TORCH, SOUL_TORCH, LANTERN, SOUL_LANTERN, CAMPFIRE, SOUL_CAMPFIRE, GLOWSTONE, SEA_LANTERN, SHROOMLIGHT,
+            JACK_O_LANTERN, END_ROD, CANDLE, REDSTONE_LAMP, OCHRE_FROGLIGHT, VERDANT_FROGLIGHT, PEARLESCENT_FROGLIGHT,
+            GLOW_BERRIES, GLOW_INK_SAC, GLOW_ITEM_FRAME, LIGHT_BLUE_CANDLE, CRYING_OBSIDIAN, MAGMA_BLOCK]
+  seltene-schaetze:
+    name: "Seltene Schätze"
+    icon: NETHER_STAR
+    reward: 25000
+    items: [NETHER_STAR, TOTEM_OF_UNDYING, HEART_OF_THE_SEA, NAUTILUS_SHELL, TRIDENT, SHULKER_SHELL,
+            ECHO_SHARD, BEACON, ENCHANTED_GOLDEN_APPLE, DRAGON_BREATH, SNIFFER_EGG, HEAVY_CORE, MACE]
+  rohstoffe:
+    name: "Rohstoffe"
+    icon: DIAMOND
+    reward: 1500
+    items: [COAL, COPPER_INGOT, IRON_INGOT, GOLD_INGOT, REDSTONE, LAPIS_LAZULI, QUARTZ, AMETHYST_SHARD,
+            EMERALD, DIAMOND, NETHERITE_INGOT]
+  farbstoffe:
+    name: "Farbstoffe"
+    icon: RED_DYE
+    reward: 500
+    items: ["*_DYE"]
+  korallen:
+    name: "Korallen"
+    icon: BRAIN_CORAL
+    reward: 1000
+    items: [TUBE_CORAL, BRAIN_CORAL, BUBBLE_CORAL, FIRE_CORAL, HORN_CORAL,
+            TUBE_CORAL_BLOCK, BRAIN_CORAL_BLOCK, BUBBLE_CORAL_BLOCK, FIRE_CORAL_BLOCK, HORN_CORAL_BLOCK,
+            TUBE_CORAL_FAN, BRAIN_CORAL_FAN, BUBBLE_CORAL_FAN, FIRE_CORAL_FAN, HORN_CORAL_FAN]
+  blumen:
+    name: "Blumen"
+    icon: POPPY
+    reward: 600
+    items: [DANDELION, POPPY, BLUE_ORCHID, ALLIUM, AZURE_BLUET, RED_TULIP, ORANGE_TULIP, WHITE_TULIP,
+            PINK_TULIP, OXEYE_DAISY, CORNFLOWER, LILY_OF_THE_VALLEY, TORCHFLOWER, WITHER_ROSE, SUNFLOWER,
+            LILAC, ROSE_BUSH, PEONY]
+  setzlinge:
+    name: "Setzlinge"
+    icon: OAK_SAPLING
+    reward: 400
+    items: ["*_SAPLING", MANGROVE_PROPAGULE]
+  fische:
+    name: "Fische"
+    icon: COD
+    reward: 250
+    items: [COD, SALMON, TROPICAL_FISH, PUFFERFISH]
+  bannermuster:
+    name: "Bannermuster"
+    icon: FLOWER_BANNER_PATTERN
+    reward: 7000
+    items: ["*_BANNER_PATTERN"]
+  neuheiten-2026:
+    name: "Neuheiten 2026"
+    icon: GOLDEN_DANDELION
+    reward: 4000
+    items: ["*_CUSHION", GOLDEN_DANDELION, STRAW_BED, SHELF_MUSHROOM, "entity:SULFUR_CUBE"]
+  eimer:
+    name: "Eimer-Varianten"
+    icon: WATER_BUCKET
+    reward: 2500
+    items: [BUCKET, WATER_BUCKET, LAVA_BUCKET, MILK_BUCKET, POWDER_SNOW_BUCKET, COD_BUCKET, SALMON_BUCKET,
+            PUFFERFISH_BUCKET, TROPICAL_FISH_BUCKET, AXOLOTL_BUCKET, TADPOLE_BUCKET]
+  axolotl-farben:
+    name: "Alle Axolotl-Farben"
+    icon: AXOLOTL_BUCKET
+    reward: 4000
+    items: ["axolotl:*"]
+  glasierte-terrakotta:
+    name: "Glasierte Terrakotta"
+    icon: MAGENTA_GLAZED_TERRACOTTA
+    reward: 1500
+    items: ["*_GLAZED_TERRACOTTA"]
+
+  woelfe:
+    name: "Rudel der Wölfe"
+    icon: WOLF_SPAWN_EGG
+    reward: 6000
+    items: ["variants:wolf"]
+  katzen:
+    name: "Samtpfoten aller Art"
+    icon: CAT_SPAWN_EGG
+    reward: 6000
+    items: ["variants:cat"]
+  verzauberungen:
+    name: "Meister der Verzauberung"
+    icon: ENCHANTED_BOOK
+    reward: 20000
+    items: ["enchantments:all"]
+  bunte-tiere:
+    name: "Bunte Tierwelt"
+    icon: PARROT_SPAWN_EGG
+    reward: 5000
+    items: ["variants:parrot", "variants:frog", "variants:rabbit"]
+
+  # ---- Kreaturen (getötet oder durch das Fernglas angesehen) ----
+  monster:
+    name: "Monster der Oberwelt"
+    icon: ZOMBIE_HEAD
+    reward: 6000
+    items: ["entity:ZOMBIE", "entity:SKELETON", "entity:CREEPER", "entity:SPIDER", "entity:CAVE_SPIDER", "entity:ENDERMAN",
+            "entity:WITCH", "entity:SLIME", "entity:DROWNED", "entity:HUSK", "entity:STRAY", "entity:PHANTOM",
+            "entity:PILLAGER", "entity:VINDICATOR", "entity:EVOKER", "entity:RAVAGER", "entity:SILVERFISH",
+            "entity:ZOMBIE_VILLAGER", "entity:BOGGED", "entity:BREEZE", "entity:CREAKING"]
+  nether-kreaturen:
+    name: "Nether-Kreaturen"
+    icon: BLAZE_ROD
+    reward: 6000
+    items: ["entity:BLAZE", "entity:GHAST", "entity:MAGMA_CUBE", "entity:WITHER_SKELETON", "entity:PIGLIN",
+            "entity:PIGLIN_BRUTE", "entity:HOGLIN", "entity:ZOGLIN", "entity:ZOMBIFIED_PIGLIN", "entity:STRIDER"]
+  bauernhof:
+    name: "Bauernhoftiere"
+    icon: WHEAT
+    reward: 2500
+    items: ["entity:COW", "entity:MOOSHROOM", "entity:PIG", "entity:SHEEP", "entity:CHICKEN", "entity:HORSE",
+            "entity:DONKEY", "entity:MULE", "entity:RABBIT", "entity:GOAT", "entity:LLAMA", "entity:CAMEL"]
+  wildtiere:
+    name: "Wildtiere"
+    icon: BONE
+    reward: 4000
+    items: ["entity:WOLF", "entity:CAT", "entity:OCELOT", "entity:FOX", "entity:PANDA", "entity:POLAR_BEAR",
+            "entity:PARROT", "entity:BEE", "entity:FROG", "entity:ARMADILLO", "entity:SNIFFER", "entity:BAT"]
+  wasserwesen:
+    name: "Wasserwesen"
+    icon: HEART_OF_THE_SEA
+    reward: 4000
+    items: ["entity:COD", "entity:SALMON", "entity:TROPICAL_FISH", "entity:PUFFERFISH", "entity:SQUID",
+            "entity:GLOW_SQUID", "entity:DOLPHIN", "entity:TURTLE", "entity:AXOLOTL", "entity:TADPOLE",
+            "entity:GUARDIAN", "entity:ELDER_GUARDIAN"]
+  dorfbewohner:
+    name: "Dorfbewohner und Helfer"
+    icon: EMERALD
+    reward: 1500
+    items: ["entity:VILLAGER", "entity:WANDERING_TRADER", "entity:IRON_GOLEM", "entity:SNOW_GOLEM", "entity:ALLAY"]
+  bosse:
+    name: "Bosse"
+    icon: DRAGON_HEAD
+    reward: 15000
+    items: ["entity:WARDEN", "entity:ENDER_DRAGON", "entity:WITHER", "entity:ELDER_GUARDIAN"]
+
+  ziegenhoerner:
+    name: "Alle Ziegenhörner"
+    icon: GOAT_HORN
+    reward: 6000
+    items: ["horns:*"]
+  essen:
+    name: "Feinschmecker"
+    icon: COOKED_BEEF
+    reward: 5000
+    items: [APPLE, GOLDEN_APPLE, ENCHANTED_GOLDEN_APPLE, MELON_SLICE, SWEET_BERRIES, GLOW_BERRIES, CARROT, GOLDEN_CARROT,
+            POTATO, BAKED_POTATO, POISONOUS_POTATO, BEETROOT, BEETROOT_SOUP, BREAD, COOKIE, CAKE, PUMPKIN_PIE,
+            MUSHROOM_STEW, RABBIT_STEW, SUSPICIOUS_STEW, BEEF, COOKED_BEEF, PORKCHOP, COOKED_PORKCHOP, MUTTON,
+            COOKED_MUTTON, CHICKEN, COOKED_CHICKEN, RABBIT, COOKED_RABBIT, COD, COOKED_COD, SALMON, COOKED_SALMON,
+            TROPICAL_FISH, PUFFERFISH, DRIED_KELP, ROTTEN_FLESH, SPIDER_EYE, CHORUS_FRUIT, HONEY_BOTTLE]
+  werkzeuge-waffen:
+    name: "Werkzeuge und Waffen"
+    icon: DIAMOND_PICKAXE
+    reward: 20000
+    items: ["*_SWORD", "*_PICKAXE", "*_AXE", "*_SHOVEL", "*_HOE", BOW, CROSSBOW, TRIDENT, MACE, SHEARS,
+            FISHING_ROD, FLINT_AND_STEEL, SHIELD]
+  ruestungen:
+    name: "Rüstungsteile"
+    icon: DIAMOND_CHESTPLATE
+    reward: 20000
+    items: ["*_HELMET", "*_CHESTPLATE", "*_LEGGINGS", "*_BOOTS"]
+  redstone:
+    name: "Redstone-Technik"
+    icon: REDSTONE
+    reward: 4000
+    items: [REDSTONE, REDSTONE_TORCH, REDSTONE_BLOCK, REPEATER, COMPARATOR, OBSERVER, PISTON, STICKY_PISTON,
+            DISPENSER, DROPPER, HOPPER, TARGET, LEVER, DAYLIGHT_DETECTOR, TRIPWIRE_HOOK, NOTE_BLOCK, TNT,
+            SLIME_BLOCK, HONEY_BLOCK, LIGHTNING_ROD, CRAFTER, "*_PRESSURE_PLATE", "*_BUTTON"]
+  holzarten:
+    name: "Alle Holzarten"
+    icon: OAK_PLANKS
+    reward: 2500
+    items: ["*_PLANKS"]
+  brauzutaten:
+    name: "Braustand-Zutaten"
+    icon: BREWING_STAND
+    reward: 4000
+    items: [BREWING_STAND, CAULDRON, GLASS_BOTTLE, NETHER_WART, BLAZE_POWDER, FERMENTED_SPIDER_EYE, MAGMA_CREAM,
+            GHAST_TEAR, RABBIT_FOOT, PHANTOM_MEMBRANE, GLISTERING_MELON_SLICE, GUNPOWDER, DRAGON_BREATH,
+            TURTLE_HELMET, SUGAR, SPIDER_EYE, GOLDEN_CARROT, PUFFERFISH]
+# ---------------- Schlafen ----------------
+# Schlafen genug aktive Spieler einer Welt (Prozent), läuft die Nacht im Zeitraffer ab (nur die Tageszeit,
+# sonst ändert sich nichts). "Aktiv" = nicht im Zuschauer-Modus und nicht länger als afk-minutes bewegungslos.
+sleep:
+  enabled: true
+  percent: 10
+  # Wie viele Zeit-Ticks pro Server-Tick vergehen. 120 = eine ganze Nacht dauert höchstens 5 Sekunden
+  # (kleinere Werte machen es langsamer, die Nacht dauert dann länger als 5 Sekunden)
+  speed: 120
+  afk-minutes: 5
+
+# ---------------- Teleportieren ----------------
+teleport:
+  # Wartezeit vor jeder Teleportation (Sekunden)
+  delay-seconds: 3
+  # So lange ist eine /tpa-Anfrage gültig (Sekunden)
+  request-timeout-seconds: 60
+
+# ---------------- Freecam ----------------
+freecam:
+  enabled: true
+  # So weit darf man sich von seinem Körper entfernen (Blöcke)
+  max-distance: 1000   # Radius in Blöcken (waagerecht); Höhe und Tiefe sind unbegrenzt
+
+# ---------------- Coins allgemein ----------------
+coins:
+  # Größter Betrag, der auf einmal überwiesen werden darf (Schutz vor Tippfehlern)
+  max-transfer: 1000000000
+  # Einmaliges Startguthaben für Spieler, die zum allerersten Mal beitreten (0 = keins)
+  start-bonus: 100
+  start-bonus-per-day: 100    # wer spaeter einsteigt, bekommt je Tag seit dem Serverstart so viel mehr Startguthaben
+  start-bonus-max: 3000      # Obergrenze des Startguthabens
+
+# ---------------- Login-Serie (Teil des täglichen Einkommens) ----------------
+# Wer an mehreren Tagen hintereinander (Tag = 12:00 bis 12:00 Uhr) auf dem Server ist, bekommt einen
+# Serien-Bonus auf sein tägliches Einkommen: per-day x (Tag der Serie - 1), höchstens bis max-days Tage.
+# Jeder 7. Tag der Serie gibt zusätzlich weekly-bonus. Das Ganze wird mit dem Einkommen beim Shop-Wechsel
+# ausgezahlt (Grundeinkommen steht unter daily-income).
+login-streak:
+  enabled: true
+  per-day: 5
+  max-days: 7
+  weekly-bonus: 100
+  # Alle 7 Tage eine Mystery Box; Stufe je voller Woche (danach bleibt die letzte Stufe)
+  box-tiers: [1, 1, 2, 2, 3, 3, 4, 4, 5]
+
+# ---------------- Tägliche Aufgaben ----------------
+# Jeden Tag (Wechsel zur Shop-Zeit) gibt es für alle dieselben Aufgaben aus dem Pool: easy-count leichte und hard-count schwere.
+# amount = [kleinste, größte] Zielmenge, reward = [kleinste, größte] Belohnung (je größer die Aufgabe,
+# desto größer die Belohnung). stat = was gezählt wird (mined, wood, stone, diamonds, fishing, creatures,
+# walked, placed, trades, playtime). Wer alle Aufgaben des Tages schafft, bekommt zusätzlich bonus-all.
+quests:
+  enabled: true
+  easy-count: 3        # 3 leichte Aufgaben (untere Spanne von amount/reward)
+  hard-count: 3        # 3 schwere Aufgaben (obere Spanne, mal hard-amount / hard-reward)
+  hard-amount: 1.5
+  hard-reward: 2.2
+  carry-max: 6         # so viele nicht geschaffte Aufgaben frueherer Tage bleiben bestehen (ohne Alle-Aufgaben-Bonus)
+  bonus-all: 120       # Bonus, wenn alle 6 Aufgaben des Tages geschafft sind
+  pool:
+    mined:     {stat: mined,     name: "Blöcke abbauen",    unit: "Blöcke",   icon: DIAMOND_PICKAXE, amount: [200, 600],  reward: [20, 60]}
+    wood:      {stat: wood,      name: "Holz sammeln",      unit: "Stämme",   icon: OAK_LOG,         amount: [40, 120],   reward: [20, 55]}
+    stone:     {stat: stone,     name: "Stein abbauen",     unit: "Blöcke",   icon: COBBLESTONE,     amount: [150, 500],  reward: [15, 50]}
+    diamonds:  {stat: diamonds,  name: "Diamanterze finden", unit: "Erze",    icon: DIAMOND_ORE,     amount: [3, 10],     reward: [40, 110]}
+    fishing:   {stat: fishing,   name: "Angeln",            unit: "Fänge",    icon: FISHING_ROD,     amount: [10, 30],    reward: [20, 55]}
+    creatures: {stat: creatures, name: "Kreaturen besiegen", unit: "Kreaturen", icon: IRON_SWORD,    amount: [15, 50],    reward: [20, 60]}
+    walked:    {stat: walked,    name: "Weit wandern",      unit: "Blöcke",   icon: LEATHER_BOOTS,   amount: [1000, 3000], reward: [15, 45]}
+    placed:    {stat: placed,    name: "Bauen",             unit: "Blöcke",   icon: BRICKS,          amount: [150, 500],  reward: [15, 50]}
+    trades:    {stat: trades,    name: "Mit Dorfbewohnern handeln", unit: "Handel", icon: EMERALD,   amount: [3, 10],     reward: [30, 80]}
+    enchanted: {stat: enchanted, name: "Gegenstände verzaubern", unit: "Gegenstände", icon: ENCHANTING_TABLE, amount: [2, 6], reward: [30, 80]}
+    brewed:    {stat: brewed,    name: "Tränke brauen",      unit: "Tränke",   icon: BREWING_STAND,   amount: [3, 12],     reward: [30, 80]}
+    bred:      {stat: bred,      name: "Tiere züchten",      unit: "Zuchten",  icon: WHEAT,           amount: [3, 10],     reward: [25, 70]}
+    harvest:   {stat: harvest,   name: "Ernte einbringen",   unit: "Pflanzen", icon: HAY_BLOCK,       amount: [40, 150],   reward: [20, 60]}
+
+# ---------------- Normale Welt: seltene Funde beim Angeln und Abbauen ----------------
+# "odds" heißt: 1 zu so viele pro Fang bzw. pro abgebautem Erz. Selbst platzierte Erze zählen nicht.
+activity:
+  enabled: true
+  fishing:
+    odds: 50                 # Glücksfang: etwas Coins
+    coins: [20, 80]
+    box-odds: 3000           # Schatzfund: Coins und eine Mystery Box (Stufe 1)
+    coins-epic: [300, 800]
+  mining:
+    odds: 15                 # Diamant-, Smaragderz und Antiker Schutt
+    coins-diamond: [40, 120]
+    coins-emerald: [30, 90]
+    coins-debris: [100, 300]
+
+# ---------------- Titel ----------------
+# Titel stehen in Chat und Tab-Liste vor dem Namen. Ein Spieler kann mehrere besitzen, trägt aber nur einen
+# (Auswahl im Menü /titel). "color" ist ein Minecraft-Farbname (gold, aqua, red, green, dark_purple ...).
+titles:
+  # Jeder Titel kann eine Wirkung haben (effect), solange man ihn TRAEGT.
+  # Typen: task-boost (Aufgaben-Fortschritt zaehlt value % mehr; stat = bestimmte Aufgabenart, leer = alle),
+  #        miner-double (value % Chance, dass ein abgebauter Block bei der Miner-Quest einen weiteren Block abhakt),
+  #        miner-reward (value % mehr Krypto bei der Miner-Quest), shop-discount (value % Rabatt im Server-Shop),
+  #        casino-bonus (value % mehr Casino-Gewinne), tax-discount (value % weniger Verkaufssteuer im Spieler-Shop),
+  #        bounty-bonus (value % mehr beim Kassieren von Kopfgeld), black-chance (Prozentpunkte Kaufchance im Schwarzmarkt),
+  #        slot-discount (value % Rabatt auf Revier-Slots), boost-<lizenz> (value % mehr, z. B. boost-aufgaben,
+  #        boost-treue, boost-sammler, boost-erfolge, boost-investor), ws-order-size (neue Grosshandel-Auftraege value % kleiner oder - nach Wahl des Spielers - groesser)
+  # text steht im Titel-Menue.
+  richest: {name: "Goldkaiser", color: gold, icon: GOLD_INGOT, effect: {type: shop-discount, value: 5, text: "5 % Rabatt im Server-Shop"}}
+  # Pate: gehoert dem Spieler, der in den meisten Revieren das meiste verkauft hat (Auswertung sonntags 12 Uhr)
+  # Rollen-Titel: gehoeren den Unterhaendlern (je Revier), Gesellschaftern (je Branche) und dem CEO
+  unterhaendler: {name: "Unterhändler", color: red, icon: IRON_SWORD, effect: {type: black-chance, value: 5, text: "+5 Prozentpunkte Kaufchance im Schwarzmarkt"}}
+  gesellschafter: {name: "Gesellschafter", color: aqua, icon: EMERALD, effect: {type: ws-order-size, value: 10, text: "Neue Großhandel-Aufträge 10 % kleiner oder größer (wählbar)"}}
+  wettbaron: {name: "Wettbaron", color: gold, icon: GOLDEN_HELMET, effect: {type: bet-fee-share, value: 5, text: "Bekommt 5 % aller Wettgebühren und darf pro Woche eine Sonderquote setzen"}}
+  ceo: {name: "CEO", color: light_purple, icon: NETHERITE_INGOT, effect: {type: ws-order-size, value: 20, text: "Neue Großhandel-Aufträge 20 % kleiner oder größer (wählbar)"}}
+  pate: {name: "Pate", color: dark_red, icon: WITHER_SKELETON_SKULL, effect: {type: black-chance, value: 10, text: "+10 Prozentpunkte Kaufchance im Schwarzmarkt"}}
+  # Platz-1-Titel: gehoert dem Ersten der Rangliste, solange er Erster ist
+  rank:
+    diamonds:     {name: "Diamantenfürst",   color: aqua,         effect: {type: task-boost, stat: diamonds, value: 100, text: "Diamanterz-Aufgaben zählen doppelt"}}
+    debris:       {name: "Höllenschürfer",   color: dark_purple,  effect: {type: miner-double, value: 20, text: "20 % Chance, dass ein Block bei der Miner-Quest doppelt zählt"}}
+    wood:         {name: "Waldschreck",      color: yellow,       effect: {type: task-boost, stat: wood, value: 100, text: "Holz-Aufgaben zählen doppelt"}}
+    stone:        {name: "Felsflüsterer",    color: gray,         effect: {type: task-boost, stat: stone, value: 100, text: "Ein abgebauter Stein zählt wie 2 bei Stein-Aufgaben"}}
+    fishing:      {name: "Köder-Casanova",   color: blue,         effect: {type: task-boost, stat: fishing, value: 100, text: "Angel-Aufgaben zählen doppelt"}}
+    creatures:    {name: "Henker", color: red,          effect: {type: bounty-bonus, value: 25, text: "25 % mehr beim Kassieren von Kopfgeld"}}
+    deaths-least: {name: "Unsterblicher",    color: green,        effect: {type: slot-discount, value: 15, text: "15 % Rabatt auf Revier-Slots"}}
+    deaths-most:  {name: "Märtyrer",         color: dark_red,     effect: {type: casino-bonus, value: 10, text: "10 % mehr Casino-Gewinne"}}
+    trades:       {name: "Smaragdbaron",     color: dark_green,   effect: {type: tax-discount, value: 50, text: "Halbe Verkaufssteuer im Spieler-Shop"}}
+    walked:       {name: "Sohlen-Sultan",    color: dark_aqua,    effect: {type: task-boost, stat: walked, value: 100, text: "Wander-Aufgaben zählen doppelt"}}
+    bosses:       {name: "Titanenbezwinger", color: light_purple, effect: {type: boost-aufgaben, value: 25, text: "25 % mehr Belohnung bei Aufgaben"}}
+    placed:       {name: "Bob",              color: gold,         effect: {type: task-boost, stat: placed, value: 100, text: "Bau-Aufgaben zählen doppelt"}}
+    mined:        {name: "Erdenbrecher",     color: dark_gray,    effect: {type: task-boost, stat: mined, value: 100, text: "Alle Abbau-Aufgaben (Blöcke, Stein, Holz, Erze) zählen doppelt"}}
+    playtime:     {name: "Dauerbrenner",     color: light_purple, effect: {type: miner-reward, value: 25, text: "25 % mehr Kryptocoin bei der Miner-Quest"}}
+  # Dauerhafte Titel: einmal verdient, immer behalten.
+  # type: streak (Login-Serie in Tagen), collections (fertige Kollektionen), secrets (geheime Erfolge),
+  #       quests (geschaffte Aufgaben), coins (Kontostand), playtime (Spielzeit in Minuten)
+  permanent:
+    stammgast:        {name: "Treues Stück",     color: green,        icon: CLOCK,         type: streak,      value: 30,     effect: {type: boost-treue, value: 25, text: "25 % mehr Login-Serien-Bonus"}}
+    sammler:          {name: "Sammelkönig",          color: yellow,       icon: BOOKSHELF,     type: collections, value: 10,     effect: {type: boost-sammler, value: 25, text: "25 % mehr Belohnung bei Kollektionen"}}
+    geheimniskraemer: {name: "Geheimnisträger",  color: light_purple, icon: ENDER_EYE,     type: secrets,     value: 10,     effect: {type: boost-erfolge, value: 25, text: "25 % mehr Coins bei Erfolgen"}}
+    questmeister:     {name: "Rastloser Held",   color: aqua,         icon: WRITABLE_BOOK, type: quests,      value: 100,    effect: {type: task-boost, value: 25, text: "Alle Aufgaben zählen 25 % mehr"}}
+    goldfinger:       {name: "Scheich",          color: gold,         icon: GOLD_BLOCK,    type: coins,       value: 50000, effect: {type: boost-investor, value: 15, text: "15 % mehr Einkommen aus Item-Sets"}}
+    veteran:          {name: "Serverlegende",    color: red,          icon: SHIELD,        type: playtime,    value: 6000,   effect: {type: miner-double, value: 30, text: "30 % Chance, dass ein Block bei der Miner-Quest doppelt zählt"}}
+
+# ---------------- Lizenzen ----------------
+# Einmal kaufen, für immer behalten. Genau diese Kennungen gibt es (nicht umbenennen):
+# "value" bedeutet je nach Lizenz etwas anderes (siehe Kommentar). Der Preis geht aufs Shop-Konto.
+# Lizenzen: price/value = Stufe 1, levels = weitere Stufen (Preis und Wert der jeweiligen Stufe)
+licenses:
+  steuerfrei:    {name: "Steuerfrei",      icon: PAPER,           price: 3200, value: 40, levels: [{price: 4800, value: 70}, {price: 8000, value: 100}]}    # % weniger Verkaufssteuer (Spieler-Shop, Gewinnsteuer Aktien/Krypto); Stufe 3 = keine Steuer
+  gebuehrenfrei: {name: "Gebührenfrei",    icon: NAME_TAG,        price: 2000, value: 40, levels: [{price: 3200, value: 70}, {price: 4800, value: 100}]}    # % weniger Einstellgebühr (Spieler-Shop) und Schwarzmarkt-Gebühren; Stufe 3 = keine Gebühr
+  freispiel:     {name: "Casino-Freispiel", icon: AMETHYST_SHARD, price: 4000, value: 1, levels: [{price: 6000, value: 2}, {price: 10000, value: 3}]}    # ein Casino-Spiel pro Tag gratis
+  rabatt:        {name: "Stammkunde",      icon: EMERALD,         price: 12000, value: 10, levels: [{price: 18000, value: 15}, {price: 30000, value: 20}]}   # % Rabatt im Server-Shop
+  rente:         {name: "Rentner",         icon: GOLD_INGOT,      price: 3200,  value: 40, levels: [{price: 4800, value: 70}, {price: 8000, value: 100}]}   # Coins mehr pro Tag
+  zusatzslots:   {name: "Marktstand",      icon: CHEST,           price: 2400,  value: 4, levels: [{price: 3600, value: 8}, {price: 6000, value: 12}]}    # zusätzliche Verkaufs-Slots
+  treue:         {name: "Treuekarte",      icon: CLOCK,           price: 4800, value: 50, levels: [{price: 7200, value: 75}, {price: 12000, value: 100}]}   # % mehr Login-Serien-Bonus
+  investor:      {name: "Investor",        icon: GOLD_BLOCK,      price: 10000, value: 10, levels: [{price: 14800, value: 15}, {price: 24800, value: 20}]}   # % mehr Einkommen aus Item-Sets
+  boersen:       {name: "Börsenhändler",   icon: DIAMOND,         price: 7200, value: 4, levels: [{price: 10800, value: 2}, {price: 18000, value: 1}]}    # Börsen-Gebühr in % bei Aktien und Krypto (statt 5 % / 10 %)
+  ranglisten:    {name: "Ruhmjäger",       icon: GOLDEN_HELMET,   price: 8000, value: 25, levels: [{price: 12000, value: 40}, {price: 20000, value: 60}]}   # % mehr Bonus aus den Ranglisten
+  aufgaben:      {name: "Fleißbiene",      icon: WRITABLE_BOOK,   price: 6000, value: 25, levels: [{price: 8800, value: 40}, {price: 14800, value: 60}]}   # % mehr Belohnung bei Aufgaben
+  sammler:       {name: "Sammelwut",       icon: BOOKSHELF,       price: 8000, value: 15, levels: [{price: 12000, value: 25}, {price: 20000, value: 35}]}   # % mehr Belohnung bei Kollektionen
+  glueck:        {name: "Glückspilz",      icon: RABBIT_FOOT,     price: 6400, value: 5, levels: [{price: 9600, value: 10}, {price: 16000, value: 15}]}    # % mehr Gewinn bei Glücksrad, Automat und Rubbellos
+  erfolge:       {name: "Erfolgsjäger",    icon: NETHER_STAR,     price: 7200, value: 10, levels: [{price: 10800, value: 20}, {price: 18000, value: 30}]}   # % mehr Belohnung für Erfolge und geheime Erfolge
+  expedition:    {name: "Expeditionslizenz", icon: DIAMOND_SWORD, price: 3000, value: 0}    # Zutritt zu den Expeditionen
+  bergbau:       {name: "Bergbaulizenz",   icon: IRON_PICKAXE,   price: 4000, value: 0}    # Zutritt zur Tiefenmine (einmal am Tag)
+  wetten:        {name: "Wettlizenz",      icon: SPYGLASS,        price: 6000, value: 0}    # Wettbüro ist fuer alle offen; die Lizenz verdoppelt nur die Einsatzgrenze (bets.license-stake-factor)
+  # Schwarzmarkt-Lizenzen (Stufe 1 bis 5). Zuerst "schmuggler" kaufen, er schaltet den Schwarzmarkt frei.
+  grosshandel:   {name: "Großhandel",      icon: BARREL,          price: 10000, value: 5, levels: [{price: 25000, value: 10}, {price: 45000, value: 15}]}    # Zutritt zum Großhandelsmarkt; Wert = % mehr Prämie bei Großaufträgen
+  schmuggler:     {name: "Schmuggler",      icon: ENDER_EYE,   price: 1000, value: 2,   levels: [{price: 12000, value: 4}, {price: 20000, value: 6}, {price: 32000, value: 8}, {price: 48000, value: 10}]}   # Schwarzmarkt frei; Wert = Prozentpunkte mehr Kaufchance
+  hehler:         {name: "Hehler",          icon: GOLD_NUGGET, price: 8000, value: 10, levels: [{price: 12000, value: 20}, {price: 18000, value: 30}, {price: 26000, value: 40}, {price: 36000, value: 50}]}      # % mehr Erlös beim Verkauf an den Händler
+  hintertuer:     {name: "Hintertür",       icon: IRON_DOOR,   price: 10000, value: 5,  levels: [{price: 14000, value: 10}, {price: 20000, value: 15}, {price: 30000, value: 20}, {price: 40000, value: 25}]}    # % Rabatt auf Schwarzmarkt-Preise
+  bestechung:     {name: "Bestechung",      icon: COPPER_INGOT, price: 8800, value: 20, levels: [{price: 12800, value: 40}, {price: 19200, value: 60}, {price: 28000, value: 80}, {price: 40000, value: 100}]}   # % der Schwarzmarkt-Gebühren erlassen
+  kopfgeldjaeger: {name: "Kopfgeldjäger",   icon: CROSSBOW,    price: 12000, value: 10, levels: [{price: 16000, value: 20}, {price: 24000, value: 30}, {price: 34000, value: 40}, {price: 48000, value: 50}]}   # % mehr Belohnung beim Kassieren von Kopfgeldern
+  schwarzlager:   {name: "Schwarzlager",    icon: BARREL,      price: 7200, value: 1,  levels: [{price: 10000, value: 2}, {price: 15200, value: 3}, {price: 22000, value: 4}, {price: 32000, value: 5}]}        # zusätzliche Gratis-Slots in jedem Revier (Wert = Slots pro Revier; schaltet keine Reviere frei)
+  buchmacher:     {name: "Buchmacher",      icon: WRITABLE_BOOK, price: 9000, value: 5, levels: [{price: 14000, value: 10}, {price: 21000, value: 15}, {price: 30000, value: 20}, {price: 42000, value: 25}]}   # Prozentpunkte mehr Erfolgschance beim Quote türken (zusätzlich zum Schmuggler)
+  drogenhandel:   {name: "Drogenhandel",   icon: BREWING_STAND, price: 25000, value: 0}    # schaltet den Drogenhandel im Schwarzmarkt frei (zuerst Schmuggler)
+
+# ---------------- Sicherungen der Datenbank ----------------
+# Eine Kopie von coinshop.db im Ordner plugins/CoinShop/backups. Beim Start, im Abstand von
+# interval-hours und beim Ausschalten. Es bleiben nur die neuesten "keep" Dateien erhalten.
+# Termine des Servers (Zeitzone wie beim Shop). Format: "JJJJ-MM-TT HH:MM"
+schedule:
+  server-start-enabled: true
+  server-start: "2026-12-06 12:00"   # offizieller Start
+  # Testphase: ab diesem Zeitpunkt dürfen alle beitreten, aber nur schauen:
+  # Radius um den Spawn, keine Spawns, keine Tode, keine Coins/Erfolge/Belohnungen (Admins/OPs sind ausgenommen)
+  preview-enabled: true
+  preview-start: "2026-12-03 00:00"
+  preview-radius: 150   # Spawn-Sperre: Spieler ohne Adminrechte kommen bis zum Serverstart nicht weiter weg als so viele Bloecke vom Spawn
+  nether-enabled: true
+  nether-open: "2026-12-10 12:00"    # vorher sind Nether-Portale gesperrt
+
+# Safe-Zone um den Spawn (Hauptwelt), dauerhaft: nichts abbauen/bauen, keine Explosionen, kein Feuerschaden an Blöcken,
+# keine neuen Monster/Tiere, kein Schaden und kein Hunger für Spieler. Admins dürfen bauen und abbauen.
+safe-zone:
+  enabled: true
+  radius: 150
+  block-place: true    # false = dort darf gebaut/platziert werden (nur Abbauen gesperrt)
+
+# Voice-Chat-Mod (Simple Voice Chat): Sprache im Proximity-Chat ist im Spiel zu "hören"
+voicechat:
+  enabled: true
+  sculk:
+    enabled: true
+    event: "note_block_play"   # Spielereignis, das Sculk-Sensoren wahrnehmen (z. B. step, entity_roar, projectile_shoot)
+    cooldown-ticks: 20
+    sneak-silent: true         # beim Schleichen sprechen = Sculk bleibt still (Flüstern ist immer still)
+  mobs:
+    enabled: true
+    radius: 40                 # Monster hören dich in so vielen Blöcken (normal haben sie 16 bis 35)
+    sneak-factor: 0.6          # Schleichen: Radius x 0,6
+    whisper-factor: 0.15       # Flüstern: Radius x 0,15
+    aggro-radius: 24           # innerhalb davon greifen sie direkt an, weiter weg laufen sie zur Quelle
+    max-mobs: 10
+    cooldown-ticks: 40
+  warden:
+    enabled: true
+    radius: 32                 # der Wächter hört dich in so vielen Blöcken (Flüstern/Schleichen: Faktoren von mobs)
+    anger: 30                  # so viel Wut pro Sprach-Impuls dazu (ab 80 greift er an)
+
+backup:
+  enabled: true
+  interval-hours: 6
+  keep: 20
+
+# ---------------- Tägliches Einkommen ----------------
+# Wird für JEDEN bekannten Spieler (auch offline) zusammen mit dem Shop-Wechsel ausgezahlt.
+# Dazu kommt das Einkommen aus Investitions-Sets. Diese Coins werden neu erzeugt (nicht vom Shop-Konto genommen).
+daily-income:
+  base: 10
+  # Ausgleich: die aermsten Spieler bekommen taeglich einen Aufschlag, der vom Einkommen der reichsten abhaengt
+  catchup:
+    enabled: true
+    rich-count: 3            # so viele der reichsten Spieler (nach Coins) werden gemittelt
+    percent: 10              # so viel Prozent von deren Tageseinkommen bekommen die Aermsten zusaetzlich
+    poor-share-percent: 30   # die aermsten x Prozent aller Spieler
+
+# ---------------- Server-Shop ----------------
+server-shop:
+  # Wie viele Angebote gleichzeitig (das Menü ist für 14 gebaut - nicht ändern)
+  offers: 14
+  # Zeitzone und Uhrzeit des täglichen Wechsels
+  timezone: "Europe/Berlin"
+  reset-hour: 12
+  # Wie oft ein Spieler EIN Angebot pro Tag kaufen darf (0 = unbegrenzt)
+  purchase-limit-per-offer: 0
+  # Wie oft ein Angebot INSGESAMT (von allen Spielern zusammen) gekauft werden kann.
+  # Ist ein Angebot ausverkauft, kommt an dessen Platz sofort ein neues Item.
+  stock-per-offer: 3
+
+  # Spezialgruppen: Jede dieser vier Gruppen hat pro Angebotsplatz diese Chance (0.10 = 10 %):
+  #   verzaubertes Rüstungsteil, verzaubertes Werkzeug/Waffe, Shulkerbox (alle Farben), verzaubertes Buch.
+  # Alle übrigen Plätze (bei 10 % also 60 %) sind normale Items; dabei hat JEDES Item die gleiche Chance
+  # (auch Tränke, Ziegenhörner, Eintopf, Feuerwerk, Eimer, Rüstungsbesätze und gefärbte Lederrüstung).
+  special-chance: 0.10
+  # In den Gruppen Rüstung und Werkzeuge/Waffen ist dieser Anteil UNVERZAUBERT (0.4 = 40 %), der Rest verzaubert.
+  unenchanted-share: 0.4
+  variant-prices:
+    goat_horn: 1500
+    suspicious_stew: 300
+    ominous_bottle: 600       # plus 300 je Stufe (0 bis 4)
+    firework_rocket: 30       # plus 30 je Flugdauer, pro Rakete
+    axolotl: 300
+    axolotl_blue: 1500
+    tropical_fish_bucket: 250
+    armor_trim: 2500          # Aufschlag auf die Rüstung
+    dyed_leather: 20
+  # Grundpreis pro Trank (stark = x2,2, lang = x1,6; Wurftrank x1,4, Verweiltrank x2,2, Pfeil x0,3)
+  potion-base:
+    default: 250
+    water: 20
+    mundane: 40
+    thick: 40
+    awkward: 60
+    healing: 300
+    harming: 300
+    swiftness: 250
+    slowness: 150
+    leaping: 200
+    strength: 350
+    weakness: 150
+    poison: 200
+    regeneration: 350
+    fire_resistance: 300
+    night_vision: 200
+    invisibility: 250
+    water_breathing: 250
+    slow_falling: 250
+    turtle_master: 500
+    luck: 400
+    wind_charged: 300
+    weaving: 300
+    oozing: 300
+    infested: 300
+
+  # Diese Items gibt es im Shop immer nur EINZELN (Menge 1). Mit * sind Gruppen möglich.
+  single-only:
+    - MAP
+
+
+  # Was Verzauberungen kosten (Coins PRO STUFE, bei Stufe 1). Der Name ist der Spielname der Verzauberung.
+  # Alles, was hier fehlt, kostet "default".
+  # - Hohe Stufen werden überproportional teurer (siehe enchant-level-exponent).
+  # - Ein Buch kostet nur die Verzauberung (mindestens 250). Rüstung, Werkzeuge und Waffen kosten den
+  #   Preis des Items + die Verzauberungen x den Material-Faktor (siehe enchant-material-factor).
+  # - Verzauberungen, die man NICHT am Verzauberungstisch bekommt (mending, frost_walker, soul_speed,
+  #   swift_sneak, wind_burst), sind besonders teuer.
+  enchant-level-exponent: 1.4
+  enchant-cost-per-level:
+    default: 600
+    # --- Schutz und Rüstung ---
+    protection: 1500
+    fire_protection: 900
+    blast_protection: 1250
+    projectile_protection: 900
+    feather_falling: 800
+    thorns: 1000
+    unbreaking: 1250
+    respiration: 1000
+    aqua_affinity: 2000
+    depth_strider: 1500
+    # --- Nur als Schatz (nicht am Verzauberungstisch!) - sehr teuer ---
+    mending: 6000
+    frost_walker: 8000
+    soul_speed: 9000
+    swift_sneak: 10000
+    wind_burst: 10000
+    # --- Nahkampf ---
+    sharpness: 1750
+    smite: 800
+    bane_of_arthropods: 600
+    knockback: 800
+    fire_aspect: 1500
+    looting: 2500
+    sweeping_edge: 1500
+    density: 2000
+    breach: 2500
+    # --- Werkzeuge ---
+    efficiency: 1500
+    silk_touch: 7500
+    fortune: 3000
+    # --- Fernkampf und Sonstiges ---
+    power: 1750
+    punch: 800
+    flame: 2000
+    infinity: 9000
+    luck_of_the_sea: 1500
+    lure: 1000
+    loyalty: 1000
+    impaling: 1000
+    riptide: 3000
+    channeling: 4000
+    multishot: 3500
+    quick_charge: 1500
+    piercing: 1000
+
+  # Wie stark Verzauberungen bei einem Material zählen. Gilt für verzauberte Rüstung, Werkzeuge und
+  # Waffen (nicht für Bücher). 1.0 = voller Preis, 0.25 = nur ein Viertel. Erster passender Eintrag gilt,
+  # was fehlt, zählt voll.
+  enchant-material-factor:
+    "LEATHER_*": 0.25
+    "WOODEN_*": 0.25
+    "STONE_*": 0.3
+    "GOLDEN_*": 0.35
+    "COPPER_*": 0.35
+    "CHAINMAIL_*": 0.45
+    TURTLE_HELMET: 0.45
+    "IRON_*": 0.6
+    BOW: 0.7
+    CROSSBOW: 0.7
+    FISHING_ROD: 0.5
+    "DIAMOND_*": 1.0
+    "NETHERITE_*": 1.0
+
+  # Preis pro EINZELNEM Item, wenn unten nichts passt
+  default-price: 15
+
+  # Diese Items erscheinen NIE (Dinge, die es im Survival nicht gibt oder die sinnlos wären).
+  # Mit * am Anfang/Ende kannst du Gruppen angeben, z. B. "*_SPAWN_EGG".
+  exclude:
+    - DRAGON_EGG
+    - ELYTRA
+    - "*_SPAWN_EGG"
+    - "LEGACY_*"
+    - "*COMMAND_BLOCK*"
+    - "INFESTED_*"
+    - BEDROCK
+    - BARRIER
+    - LIGHT
+    - STRUCTURE_BLOCK
+    - STRUCTURE_VOID
+    - JIGSAW
+    - DEBUG_STICK
+    - KNOWLEDGE_BOOK
+    - SPAWNER
+    - TRIAL_SPAWNER
+    - VAULT
+    - REINFORCED_DEEPSLATE
+    - END_PORTAL_FRAME
+    - BUDDING_AMETHYST
+    - FARMLAND
+    - CHORUS_PLANT
+    - FROGSPAWN
+    - PETRIFIED_OAK_SLAB
+    - PLAYER_HEAD
+    - WRITTEN_BOOK
+    - FILLED_MAP
+    - POTION
+    - SPLASH_POTION
+    - LINGERING_POTION
+    - TIPPED_ARROW
+    - SUSPICIOUS_STEW
+    - GOAT_HORN
+    - OMINOUS_BOTTLE
+    - ENCHANTED_BOOK
+    - TEST_BLOCK
+    - TEST_INSTANCE_BLOCK
+
+  # Preise pro EINZELNEM Item. Gesamtpreis = Menge x Preis (fest für den ganzen Tag).
+  # Es gilt der ERSTE passende Eintrag von oben nach unten. Genaue Namen zuerst, Gruppen (mit *) danach.
+  # Die seltensten Items kosten rund 100000 Coins - alles andere ist daran angelehnt.
+  prices:
+    # --- Die Seltensten (bis 100000 Coins) ---
+    NETHERITE_BLOCK: 100000
+    ELYTRA: 37500
+    BEACON: 30000
+    NETHER_STAR: 25000
+    DRAGON_HEAD: 22500
+    NETHERITE_INGOT: 20000
+    MACE: 17500
+    ENCHANTED_GOLDEN_APPLE: 17500
+    TOTEM_OF_UNDYING: 15000
+    HEART_OF_THE_SEA: 15000
+    WITHER_SKELETON_SKULL: 12500
+    TRIDENT: 12500
+    NETHERITE_UPGRADE_SMITHING_TEMPLATE: 10000
+    HEAVY_CORE: 10000
+    CONDUIT: 10000
+    MUSIC_DISC_PIGSTEP: 7500
+    MUSIC_DISC_OTHERSIDE: 7500
+    MUSIC_DISC_5: 7500
+    SNIFFER_EGG: 7500
+    DIAMOND_BLOCK: 7500
+    ANCIENT_DEBRIS: 6000
+    MUSIC_DISC_RELIC: 6000
+    NETHERITE_SCRAP: 5000
+    ECHO_SHARD: 5000
+    "*SHULKER_BOX": 5000
+    # --- Teuer (hunderte Coins) ---
+    "NETHERITE_*": 15000
+    EMERALD_BLOCK: 3500
+    ENCHANTING_TABLE: 3000
+    RECOVERY_COMPASS: 3000
+    "*DIAMOND_ORE": 1000
+    "DIAMOND_*": 3000
+    "*_SKULL": 3000
+    "*_HEAD": 3000
+    CREAKING_HEART: 2500
+    SCULK_SHRIEKER: 2500
+    GOLD_BLOCK: 1250
+    "*_SMITHING_TEMPLATE": 4500
+    "MUSIC_DISC_*": 2000
+    SCULK_CATALYST: 2000
+    RESPAWN_ANCHOR: 2000
+    END_CRYSTAL: 2000
+    DRAGON_BREATH: 2000
+    SHULKER_SHELL: 2000
+    ENDER_CHEST: 750
+    LODESTONE: 1500
+    SADDLE: 1500
+    NAUTILUS_SHELL: 1500
+    DISC_FRAGMENT_5: 1500
+    CALIBRATED_SCULK_SENSOR: 1500
+    NAME_TAG: 1250
+    ANVIL: 1000
+    DIAMOND: 850
+    BELL: 750
+    SCULK_SENSOR: 750
+    SPONGE: 750
+    GHAST_TEAR: 600
+    BREWING_STAND: 600
+    # Schwache Rüstung ist bewusst günstig (Leder, Kupfer, Gold, Kette, Eisen, Schildkrötenpanzer)
+    "LEATHER_HORSE_ARMOR": 75
+    "LEATHER_*": 25
+    "COPPER_HELMET": 60
+    "COPPER_CHESTPLATE": 60
+    "COPPER_LEGGINGS": 60
+    "COPPER_BOOTS": 60
+    "CHAINMAIL_*": 200
+    TURTLE_HELMET: 300
+    GOLDEN_HELMET: 100
+    GOLDEN_CHESTPLATE: 100
+    GOLDEN_LEGGINGS: 100
+    GOLDEN_BOOTS: 100
+    IRON_HELMET: 150
+    IRON_CHESTPLATE: 150
+    IRON_LEGGINGS: 150
+    IRON_BOOTS: 150
+    TURTLE_EGG: 500
+    MAP: 750
+    IRON_BLOCK: 500
+    "*EMERALD_ORE": 500
+    EMERALD: 400
+    ENDER_EYE: 400
+    TRIAL_KEY: 500
+    GOLDEN_APPLE: 300
+    GOLDEN_CARROT: 100
+    "GOLDEN_*": 300
+    CLOCK: 300
+    # --- Mittel ---
+    IRON_INGOT: 60
+    IRON_NUGGET: 10
+    IRON_ORE: 75
+    DEEPSLATE_IRON_ORE: 75
+    IRON_BARS: 20
+    "IRON_*": 200
+    GOLD_INGOT: 150
+    ENDER_PEARL: 200
+    BLAZE_ROD: 200
+    BREEZE_ROD: 200
+    EXPERIENCE_BOTTLE: 200
+    RABBIT_FOOT: 200
+    COMPASS: 200
+    CROSSBOW: 200
+    TURTLE_SCUTE: 200
+    TORCHFLOWER_SEEDS: 200
+    PHANTOM_MEMBRANE: 150
+    ARMADILLO_SCUTE: 150
+    SPORE_BLOSSOM: 150
+    CRYING_OBSIDIAN: 150
+    SHIELD: 150
+    TNT: 125
+    GLISTERING_MELON_SLICE: 125
+    OBSIDIAN: 100
+    LEAD: 100
+    BOW: 100
+    WIND_CHARGE: 100
+    SLIME_BALL: 75
+    HONEY_BOTTLE: 60
+    BOOK: 75
+    SHEARS: 75
+    FISHING_ROD: 50
+    AMETHYST_SHARD: 50
+    LAPIS_LAZULI: 40
+    COPPER_INGOT: 30
+    QUARTZ: 30
+    COAL: 25
+    REDSTONE: 25
+    GLOWSTONE_DUST: 25
+    "COOKED_*": 20
+    LEATHER: 30
+
+    # --- Natürliche Items und Drops (ohne Rezept). Alles andere wird aus den Zutaten berechnet (Rezept + 10 %). ---
+    "*_LOG": 8
+    "*_STEM": 8
+    "*_LEAVES": 3
+    "*_SAPLING": 20
+    MANGROVE_PROPAGULE: 20
+    "*_ROOTS": 4
+    "*_FUNGUS": 15
+    "*_MUSHROOM": 10
+    "*_MUSHROOM_BLOCK": 8
+    "*_ORE": 60
+    "RAW_*": 50
+    "*_CORAL*": 30
+    "*_TULIP": 6
+    "*_DYE": 8
+    "*_BANNER_PATTERN": 150
+    "*_POTTERY_SHERD": 120
+    "*_BOAT": 40
+    "*_CHEST_BOAT": 55
+    COBBLESTONE: 2
+    COBBLED_DEEPSLATE: 2
+    STONE: 3
+    DEEPSLATE: 3
+    TUFF: 3
+    GRANITE: 3
+    DIORITE: 3
+    ANDESITE: 3
+    CALCITE: 6
+    DRIPSTONE_BLOCK: 5
+    POINTED_DRIPSTONE: 4
+    BASALT: 3
+    BLACKSTONE: 3
+    NETHERRACK: 1
+    END_STONE: 4
+    DIRT: 1
+    COARSE_DIRT: 2
+    ROOTED_DIRT: 4
+    GRASS_BLOCK: 3
+    PODZOL: 8
+    MYCELIUM: 15
+    MUD: 3
+    CLAY_BALL: 6
+    SAND: 2
+    RED_SAND: 2
+    SUSPICIOUS_SAND: 20
+    SUSPICIOUS_GRAVEL: 20
+    GRAVEL: 2
+    SOUL_SAND: 8
+    SOUL_SOIL: 8
+    MAGMA_BLOCK: 20
+    MOSS_BLOCK: 12
+    ICE: 8
+    PACKED_ICE: 20
+    BLUE_ICE: 60
+    SNOW_BLOCK: 4
+    SNOWBALL: 1
+    SHORT_GRASS: 2
+    TALL_GRASS: 2
+    FERN: 2
+    LARGE_FERN: 3
+    DEAD_BUSH: 3
+    VINE: 5
+    LILY_PAD: 8
+    CACTUS: 5
+    SUGAR_CANE: 6
+    BAMBOO: 3
+    KELP: 3
+    SEAGRASS: 3
+    SEA_PICKLE: 15
+    WHEAT: 8
+    WHEAT_SEEDS: 3
+    BEETROOT_SEEDS: 3
+    MELON_SEEDS: 4
+    PUMPKIN_SEEDS: 4
+    CARROT: 10
+    POTATO: 10
+    POISONOUS_POTATO: 5
+    BEETROOT: 8
+    APPLE: 12
+    SWEET_BERRIES: 8
+    GLOW_BERRIES: 12
+    MELON_SLICE: 3
+    PUMPKIN: 12
+    CARVED_PUMPKIN: 14
+    COCOA_BEANS: 15
+    CHORUS_FRUIT: 40
+    CHORUS_FLOWER: 80
+    DANDELION: 6
+    POPPY: 6
+    BLUE_ORCHID: 8
+    ALLIUM: 8
+    AZURE_BLUET: 8
+    OXEYE_DAISY: 6
+    CORNFLOWER: 8
+    LILY_OF_THE_VALLEY: 10
+    WITHER_ROSE: 400
+    SUNFLOWER: 8
+    LILAC: 8
+    ROSE_BUSH: 8
+    PEONY: 8
+    PITCHER_PLANT: 60
+    PITCHER_POD: 40
+    BIG_DRIPLEAF: 20
+    SMALL_DRIPLEAF: 15
+    HANGING_ROOTS: 10
+    GLOW_LICHEN: 10
+    SCULK: 30
+    SCULK_VEIN: 20
+    SCAFFOLDING: 15
+    STRING: 15
+    FEATHER: 8
+    BONE: 10
+    GUNPOWDER: 30
+    SPIDER_EYE: 20
+    ROTTEN_FLESH: 5
+    INK_SAC: 15
+    GLOW_INK_SAC: 60
+    EGG: 5
+    RABBIT_HIDE: 8
+    PRISMARINE_SHARD: 25
+    PRISMARINE_CRYSTALS: 40
+    WHITE_WOOL: 10
+    BEEF: 12
+    PORKCHOP: 12
+    CHICKEN: 8
+    MUTTON: 10
+    RABBIT: 10
+    COD: 6
+    SALMON: 8
+    TROPICAL_FISH: 20
+    PUFFERFISH: 25
+    BUCKET: 90
+    WATER_BUCKET: 95
+    LAVA_BUCKET: 110
+    MILK_BUCKET: 95
+    POWDER_SNOW_BUCKET: 100
+    "*_BUCKET": 150
+    AXOLOTL_BUCKET: 300
+    OMINOUS_TRIAL_KEY: 800
+    HONEYCOMB: 20
+    GOLDEN_DANDELION: 1500
+    "*_CUSHION": 60
+    STRAW_BED: 40
+    SHELF_MUSHROOM: 25
+    "*SULFUR*": 20
+    "*CINNABAR*": 30
+    # --- Restliche Items ohne Rezept (damit wirklich jedes Item einen festen Preis hat) ---
+    "*CHISELED_COPPER": 300
+    "*COPPER_GOLEM_STATUE": 400
+    "*COPPER_CHEST": 330
+    "*COPPER_LANTERN": 40
+    "*COPPER_TRAPDOOR": 90
+    "*COPPER_DOOR": 60
+    "*COPPER_BARS": 12
+    "*COPPER_CHAIN": 12
+    "*LIGHTNING_ROD": 100
+    "*_COPPER": 300
+    COPPER_HORSE_ARMOR: 150
+    COPPER_NAUTILUS_ARMOR: 150
+    "*_BUNDLE": 40
+    "*_CONCRETE": 6
+    "*_VILLAGE_MAP": 300
+    "*_MAP": 400
+    "*_EGG": 30
+    "*FROGLIGHT": 250
+    "*_ANVIL": 400
+    "*EYEBLOSSOM": 30
+    "*NYLIUM": 15
+    SMALL_AMETHYST_BUD: 40
+    MEDIUM_AMETHYST_BUD: 80
+    LARGE_AMETHYST_BUD: 120
+    AMETHYST_CLUSTER: 200
+    ARROW: 6
+    FLINT: 5
+    AZALEA: 20
+    FLOWERING_AZALEA: 25
+    BAMBOO_HANGING_SIGN: 30
+    BAMBOO_SHELF: 40
+    BEE_NEST: 150
+    BRITTLE_ICE: 15
+    BUSH: 6
+    CACTUS_FLOWER: 40
+    CHISELED_RESIN_BRICKS: 60
+    COBWEB: 60
+    DIRT_PATH: 3
+    FIREFLY_BUSH: 25
+    FIREWORK_STAR: 40
+    GILDED_BLACKSTONE: 60
+    ICE_BALL: 50
+    ICE_CRYSTAL: 50
+    ICICLE: 20
+    NETHER_SPROUTS: 5
+    NETHER_WART: 15
+    PALE_HANGING_MOSS: 10
+    PALE_MOSS_BLOCK: 20
+    PINK_PETALS: 6
+    WILDFLOWERS: 6
+    RED_SHRUB: 6
+    RESIN_BLOCK: 110
+    SHORT_DRY_GRASS: 3
+    TALL_DRY_GRASS: 4
+    SHROOMLIGHT: 50
+    STRIPPED_BAMBOO_BLOCK: 8
+    TORCHFLOWER: 25
+    TWISTING_VINES: 10
+    WEEPING_VINES: 10
+    WARPED_WART_BLOCK: 15
+    WET_SPONGE: 80
+
+# ---------------- Spieler-Shop ----------------
+player-shop:
+  # Preisgrenzen (Coins) für das Gesamtangebot
+  min-price: 1
+  max-price: 1000000
+  # So lange bleibt ein Angebot online. Danach landet das Item in der "Abholung".
+  # Angebote im Spieler-Shop laufen NIE ab (bleiben, bis sie verkauft oder zurückgenommen werden)
+
+  # --- Verkaufs-Slots (müssen gekauft werden) ---
+  # So viele Slots hat jeder Spieler gratis (1 = der erste Slot ist gratis)
+  free-slots: 1
+  # Preis des ersten Slots. Jeder weitere Slot kostet das Doppelte vom vorherigen
+  # (5, 10, 20, 40, 80 ...).
+  # Höchstens so viele Slots pro Spieler (Gratis-Slots mitgezählt):
+  max-slots: 32
+  slot-base-price: 5
+  slot-price-multiplier: 1.4   # jeder weitere Slot kostet so viel mal den davor (frueher 2 = Verdopplung, am Ende Milliarden)
+  slot-max-price: 50000       # teurer wird ein Slot nie
+
+  # --- Schutz gegen "Zwischenlager"-Missbrauch ---
+  # Gebühr beim Einstellen. Sie wird NICHT zurückerstattet (auch nicht beim Abbrechen
+  # oder Ablaufen). So kostet es immer Coins, den Shop als Lager zu nutzen.
+  listing-fee-percent: 5.0
+  min-listing-fee: 1
+  # Steuer beim Verkauf: wird dem Verkäufer vom Erlös abgezogen
+  sale-tax-percent: 5.0
+  # Gebühren und Steuern landen auf dem Konto des Shops (und sind im Glücksrad gewinnbar).
+
+  # Diese Items dürfen NICHT angeboten werden
+  blacklist:
+    - BEDROCK
+    - BARRIER
+    - COMMAND_BLOCK
+    - CHAIN_COMMAND_BLOCK
+    - REPEATING_COMMAND_BLOCK
+    - STRUCTURE_BLOCK
+    - JIGSAW
+    - DEBUG_STICK
+    - LIGHT
+    - SPAWNER
+    - REINFORCED_DEEPSLATE
+
+# ---------------- Casino ----------------
+# Alle Spiele funktionieren gleich: Der Einsatz geht aufs Konto des Shops, Gewinne zahlt das Konto des Shops
+# (höchstens so viel, wie gerade darauf ist). Jackpot = das GANZE Shop-Konto.
+# "odds" = Chance 1 zu X pro Spiel, "amounts" = mögliche Gewinne (einer davon, alle gleich wahrscheinlich).
+# Die Chancen werden addiert (1 zu 5 + 1 zu 10 + ...). Alles, was nicht passt, ist eine Niete.
+# Rund 55 % des Einsatzes kommen im Durchschnitt zurück - das Casino verliert also langfristig nicht.
+
+# Glücksrad: der Klassiker. Mittlerer Einsatz, häufig kleine Gewinne.
+wheel:
+  price: 25
+  jackpot-odds: 15000
+  box-odds: 5000                 # Mystery Box: Chance 1 zu X pro Spiel (zusaetzlich zum normalen Ergebnis)
+  box-tier: 2
+  tiers:
+    t1: {odds: 5,   amounts: [10]}
+    t2: {odds: 10,  amounts: [25]}
+    t3: {odds: 30,  amounts: [75]}
+    t4: {odds: 100, amounts: [200, 350, 500]}
+    t5: {odds: 750, amounts: [1000, 2000, 3000]}
+
+casino:
+  # Spielautomat: hoher Einsatz, seltene aber große Gewinne
+  slots:
+    price: 50
+    jackpot-odds: 20000
+    box-odds: 6000
+    box-tier: 2
+    tiers:
+      t1: {odds: 7,    amounts: [25]}
+      t2: {odds: 15,   amounts: [75]}
+      t3: {odds: 50,   amounts: [300]}
+      t4: {odds: 150,  amounts: [700, 1200, 2000]}
+      t5: {odds: 1500, amounts: [5000, 8000]}
+  # Rubbellos: winziger Einsatz, kleine Gewinne, ab und zu ein Treffer
+  scratch:
+    price: 5
+    jackpot-odds: 12000
+    box-odds: 4000
+    box-tier: 1
+    tiers:
+      t1: {odds: 8,    amounts: [5]}
+      t2: {odds: 20,   amounts: [10]}
+      t3: {odds: 60,   amounts: [30]}
+      t4: {odds: 250,  amounts: [100, 200, 400]}
+      t5: {odds: 2500, amounts: [1000, 2000]}
+  # Doppelt oder Nichts: Einsatz wählen, dann immer wieder verdoppeln - oder rechtzeitig auszahlen.
+  double:
+    # Die wählbaren Einsätze (höchstens 3)
+    stakes: [10, 50, 250]
+    # Chance in Prozent, dass eine Verdopplung klappt (4 Verdopplungen in Folge: 2,6 %)
+    win-chance-percent: 40
+    # Nach so vielen Verdopplungen wird automatisch ausgezahlt (Einsatz x 2^Stufen; höchstens 9)
+    max-steps: 7
+    # Verliert man ab dieser Stufe, gibt es einen Trostpreis in Prozent des Einsatzes (0 = nie)
+    consolation-from-step: 3
+    consolation-percent: 50
+
+# ---------------- Farmwelt ----------------
+# /farmwelt teleportiert zu einem festen Punkt, mindestens min-distance Blöcke vom Spawn entfernt (in irgendeine
+# Richtung). Der Punkt ist für alle gleich und wechselt jeden Tag zusammen mit dem Shop-Wechsel.
+farmworld:
+  min-distance: 100000
+  max-distance: 120000
+  # Um den heutigen Farm-Punkt darf niemand (außer Admins) bauen, abbauen, Eimer leeren oder sprengen,
+  # damit dort keine Fallen entstehen. 0 = aus.
+  protect-radius: 12
+
+# ---------------- Endkampf ----------------
+# Bis zum Start-Datum ist das End gesperrt. Wer ins End-Portal geht, bekommt das Anmelde-Menü.
+# Zur Startzeit werden alle ANGEMELDETEN Spieler, die online sind, auf die End-Insel teleportiert und der Drache
+# wird beschworen. Danach ist das End für alle offen.
+# Hast du den Drachen schon besiegt oder willst du keinen Endkampf? Dann: enabled: false
+end-fight:
+  enabled: true
+  # Startzeit (Format: JJJJ-MM-TT HH:MM, Zeitzone wie der Shop). Nach einer Änderung /coinsadmin reload.
+  start: "2026-12-20 12:00"
+  # Beschwörung: Glocken schlagen, nach dem letzten Schlag erscheint der Drache (10 x 3 s = 30 s)
+  bells: 10
+  bell-interval-seconds: 3
+  # Leben des Drachen: Grundwert + pro WEITEREM Kämpfer. Höchstens health-max.
+  # (Der normale Drache hat 200 Leben.)
+  health-base: 300
+  health-per-player: 150
+  health-max: 1000
+  # Der Drache macht pro weiterem Kämpfer so viel Prozent mehr Schaden (höchstens damage-max-percent).
+  # Gilt für Biss, Feuerbälle, Drachenatem und Blitze.
+  damage-per-player-percent: 20
+  damage-max-percent: 400
+  # Belohnung (Coins) für alle Spieler, die beim Tod des Drachen im End sind
+  # Belohnung: Jeder Überlebende bekommt mindestens reward-min Coins. Dazu kommt ein Topf
+  # (reward-pool-per-player x Zahl der Überlebenden), der nach Leistung verteilt wird:
+  # Schaden am Drachen und zerstörte End-Kristalle (Gewichtung in Prozent).
+  reward-min: 1000
+  reward-pool-per-player: 4000
+  reward-damage-weight: 60
+  reward-crystal-weight: 40
+
+# ---------------- Phantome ----------------
+# Phantome erscheinen nur bei Vollmond (Oberwelt) und im End. Das End hat von Natur aus keine Phantome,
+# deshalb lässt das Plugin dort in der Nähe von Spielern welche erscheinen.
+phantoms:
+  only-full-moon-and-end: true
+  spawn-in-end: true
+  # Alle 10 Sekunden pro Spieler im End: Chance auf ein Phantom, solange weniger als "end-max-nearby" in der Nähe sind
+  end-spawn-chance: 0.35
+  end-max-nearby: 3
+
+# ---------------- Börse ----------------
+# Ein Kurs für alle. Er ändert sich einmal am Tag zusammen mit dem Shop-Wechsel.
+# Man kauft Aktien mit einem beliebigen Coin-Betrag (nur ganze Aktien, Rest wird nicht abgebucht).
+# Beispiel: Kurs 2, du zahlst 10 Coins -> (ohne Gebühr) 5 Aktien. Steigt der Kurs auf 4, sind sie 20 Coins wert.
+stock:
+  # Steuer auf den Gewinn beim Verkauf (Satz wie die Verkaufssteuer im Spieler-Shop; Lizenz Steuerfrei wirkt)
+  tax-enabled: true
+  # Gebühr (Ausgabeaufschlag) in Prozent, bei Kauf UND Verkauf. Sie geht aufs Shop-Konto.
+  fee-percent: 5
+  # Kurs beim allerersten Start
+  start-price: 10
+  # Der Kurs bleibt immer zwischen diesen Grenzen (höchstens 100)
+  min-price: 1
+  max-price: 1000
+  # Wie stark der Kurs pro Tag schwankt (0.45 = typisch etwa +-45 %, große Sprünge sind möglich)
+  volatility: 0.45
+  # Zu diesem Kurs wird der Kurs sanft hingezogen, damit er nicht dauerhaft bei 1 oder 100 klebt
+  anchor-price: 20
+  reversion: 0.08
+  # Wie viele Tage Verlauf im Menü angezeigt werden
+  history-days: 7
+  # Die festen Kauf-Beträge im Menü (die ersten 3 werden angezeigt)
+  quick-amounts: [10, 100, 1000]
+
+# ---------------- Investitionen (Sets) ----------------
+# Jedes Item eines Sets gibt es nur EINMAL auf dem Server (wie Straßen bei Monopoly).
+# "price" = Preis pro Item = tägliches Einkommen, wenn man das KOMPLETTE Set besitzt.
+# Teilbesitz bringt einen Teil des Einkommens (siehe percent-by-owned-count).
+# Achtung: Die Namen der Einträge (set01, set02 ...) werden zum Speichern benutzt - nicht umbenennen!
+investments:
+  # Ein Item kostet (Preis des Sets) x Faktor. Das Einkommen bleibt beim Set-Preis. Jedes Set bekommt seinen eigenen
+  # ganzzahligen Faktor zwischen min und max (feste Zufallszahl, bleibt immer gleich). Ein Set hat 3 Items, das KOMPLETTE Set
+  # rechnet sich also nach 3 x Faktor Tagen: Faktor 1 = 3 Tage, Faktor 5 = 15 Tage (so gewollt: 3 bis 15 Tage).
+  # Beispiel: Set mit 1000 Coins Einkommen pro Tag und Faktor 3: ein Item kostet 3000 Coins, das ganze Set 9000 und rechnet sich nach 9 Tagen.
+  # Ein einzelnes Set kann mit "price-multiplier: X" einen festen Wert bekommen.
+  price-multiplier-min: 1
+  price-multiplier-max: 5
+  # Wie viel Prozent des Set-Einkommens man bekommt, wenn man 1, 2 ... Items des Sets besitzt.
+  # (Das komplette Set bringt immer 100 %.)
+  percent-by-owned-count:
+    1: 10
+    2: 35
+  sets:
+    set01: {name: "Drachenhort",          price: 1000, items: [DRAGON_EGG, ELYTRA, DRAGON_HEAD]}
+    set02: {name: "Netherit-Schmiede",    price: 960,  items: [NETHERITE_INGOT, NETHERITE_UPGRADE_SMITHING_TEMPLATE, ANCIENT_DEBRIS]}
+    set03: {name: "Herz des Ozeans",      price: 925,  items: [HEART_OF_THE_SEA, TRIDENT, CONDUIT]}
+    set04: {name: "Wither-Festung",       price: 890,  items: [NETHER_STAR, WITHER_SKELETON_SKULL, BEACON]}
+    set05: {name: "Unsterblichkeit",      price: 850,  items: [TOTEM_OF_UNDYING, ENCHANTED_GOLDEN_APPLE, EXPERIENCE_BOTTLE]}
+    set06: {name: "Diamant-Mine",         price: 810,  items: [DIAMOND_BLOCK, DIAMOND_PICKAXE, DIAMOND_ORE]}
+    set07: {name: "End-Stadt",            price: 775,  items: [SHULKER_BOX, SHULKER_SHELL, END_CRYSTAL]}
+    set08: {name: "Dorfhandel",           price: 740,  items: [EMERALD_BLOCK, LECTERN, BELL]}
+    set09: {name: "Alchemisten-Labor",    price: 700,  items: [BREWING_STAND, GHAST_TEAR, BLAZE_ROD]}
+    set10: {name: "Zauberturm",           price: 660,  items: [ENCHANTING_TABLE, BOOKSHELF, LAPIS_BLOCK]}
+    set11: {name: "Tiefen-Schatz",        price: 625,  items: [ECHO_SHARD, SCULK_CATALYST, RECOVERY_COMPASS]}
+    set12: {name: "Goldrausch",           price: 590,  items: [GOLD_BLOCK, GOLDEN_APPLE, GOLDEN_CARROT]}
+    set13: {name: "Piglin-Bastion",       price: 550,  items: [GILDED_BLACKSTONE, CRYING_OBSIDIAN, RESPAWN_ANCHOR]}
+    set14: {name: "Schallplatten-Sammlung", price: 510, items: [MUSIC_DISC_PIGSTEP, MUSIC_DISC_OTHERSIDE, DISC_FRAGMENT_5]}
+    set15: {name: "Redstone-Werkstatt",   price: 475,  items: [REDSTONE_BLOCK, OBSERVER, STICKY_PISTON]}
+    set16: {name: "Bahnhof",              price: 440,  items: [POWERED_RAIL, DETECTOR_RAIL, MINECART]}
+    set17: {name: "Farm-Imperium",        price: 400,  items: [HAY_BLOCK, MELON, PUMPKIN]}
+    set18: {name: "Seefahrer",            price: 360,  items: [COMPASS, CLOCK, SPYGLASS]}
+    set19: {name: "Schmiede",             price: 325,  items: [ANVIL, GRINDSTONE, SMITHING_TABLE]}
+    set20: {name: "Hüttenwerk",           price: 290,  items: [BLAST_FURNACE, SMOKER, FURNACE]}
+    set21: {name: "Bibliothek",           price: 250,  items: [BOOK, WRITABLE_BOOK, NAME_TAG]}
+    set22: {name: "Imkerei",              price: 210,  items: [BEEHIVE, HONEY_BLOCK, HONEYCOMB]}
+    set23: {name: "Tiefsee-Angler",       price: 175,  items: [FISHING_ROD, NAUTILUS_SHELL, PUFFERFISH]}
+    set24: {name: "Holzfäller",           price: 140,  items: [IRON_AXE, OAK_LOG, CRAFTING_TABLE]}
+    set25: {name: "Steinbruch",           price: 100,  items: [STONE_PICKAXE, COBBLESTONE, TORCH]}
+    set26: {name: "Schäferei",            price: 80,   items: [SHEARS, WHITE_WOOL, WHEAT]}
+    set27: {name: "Kristallhöhle",        price: 60,   items: [AMETHYST_BLOCK, AMETHYST_SHARD, TINTED_GLASS]}
+
+# Tode in der Tab-Liste (neben dem Namen)
+tab-deaths:
+  enabled: true
+
+# Handel zwischen Spielern (/handel)
+trade:
+  request-seconds: 60
+  session-seconds: 300
+
+# ---------------- Schwarzmarkt ----------------
+# Freigeschaltet über die Lizenz "Schmuggler". Jeden Tag (mit dem Shop-Wechsel) gibt es 10 verschiedene,
+# wertvolle Items, von jedem nur EIN Stück. Man kann so viele kaufen, wie man will.
+# Keine Steuer, nur Gebühren. Mit chance-percent (plus Boni) bekommt man das Item wirklich,
+# sonst sind die Coins weg (das Item bleibt dann im Angebot).
+# ---------------- Wettbüro (fuer alle offen; Lizenz "wetten" = hoehere Einsatzgrenze) ----------------
+# Man wettet auf die Tode eines Spielers in der Woche (0 = gar nicht, 5 = fünfmal oder öfter).
+# Tode durch andere Spieler zählen nicht. Auswertung sonntags zur Reset-Uhrzeit des Server-Shops.
+bets:
+  enabled: true
+  box-min-win: 2000          # ab so viel Nettogewinn einer Wette gibt es mit Glück eine Mystery Box
+  box-chance-percent: 30     # Chance darauf (ab 5-fachem Gewinn Stufe 3, sonst Stufe 2)
+  min-stake: 50              # kleinster Einsatz
+  max-stake: 5000            # größter Einsatz
+  black-odds-factor: 1.6     # Schwarze Wette: Quote mal diesem Faktor (Schwarzmarkt)
+  black-fee-percent: 8       # Schwarze Wette: Gebuehr (aber keine Steuer auf den Gewinn)
+  black-max-stake: 15000     # Schwarze Wette: hoechster Einsatz
+  black-raid-percent: 5      # Chance pro Tag, dass die Polizei eine schwarze Wette aufdeckt (Einsatz weg)
+  tip-price: 600             # Insider-Tipp (Schwarzmarkt), einmal pro Tag
+  license-stake-factor: 2.0  # Wettlizenz: so viel hoeher darf der Einsatz sein
+  fee-percent: 5             # Gebühr auf den Einsatz (Gebührenfrei-Lizenz und Ereignisse wirken)
+  suspicious-deaths: 5       # stirbt ein Spieler in der letzten Stunde vor der Auswertung MEHR als so oft, zählen diese Tode nicht
+  suspicious-window-minutes: 60
+  min-play-minutes: 60       # hat der Spieler in der Woche weniger gespielt, werden Wetten auf ihn zurückgezahlt (ohne Gebühr)
+  small-max-per-week: 3        # kleine Wetten pro Spieler und Woche (Montag bis Sonntag)
+  max-open-bets: 6           # offene grosse Wetten pro Spieler
+  open-hours: 24             # GROSSE Wetten gehen nur so viele Stunden nach der Auswertung (Sonntag 12:00 bis Montag 12:00) für die kommende Woche
+  pool-smoothing: 2000       # je mehr Einsätze schon auf einem Ergebnis liegen, desto schlechter seine Quote (höher = schwächerer Effekt)
+  pool-max-cut: 0.5          # so viel der Quote geht höchstens durch viele Einsätze verloren (0.5 = bis zur Hälfte)
+  default-deaths: 1.5        # angenommene Tode pro Woche für Spieler ohne Geschichte
+  prior-weeks: 2             # Gewicht dieser Annahme (in Wochen)
+  margin: 0.10               # Marge des Hauses (10 % schlechtere Quoten als fair)
+  min-odds: 1.1              # kleinste Quote
+  max-odds: 60               # größte Quote
+  min-probability: 0.0005    # Ergebnisse, die fast unmöglich sind, nehmen keine Wetten an
+  max-probability: 0.85      # Ergebnisse, die fast sicher sind, auch nicht
+  # Todesnachrichten: Man kann zusätzlich tippen, WIE die Tode passieren (10 Arten, siehe Spielerhandout).
+  # Stimmt die Anzahl und alle Arten, gilt die volle Quote; stimmt nur die Anzahl, gibt es weniger.
+  max-causes: 5                # so viele Arten kann man pro Wette nennen (höchstens so viele wie Tode)
+  cause-weights: [20, 15, 5, 25, 10, 10, 3, 3, 4, 5]   # Grundwahrscheinlichkeit je Art: Sturz, Feuer/Lava, Ertrinken, Monster, Pfeile, Explosion, Leere, Ersticken, Hunger/Gift/Magie, Sonstiges
+  cause-prior-deaths: 4        # so viele Tode zählt die Grundwahrscheinlichkeit gegenüber der Geschichte des Spielers
+  cause-exponent: 0.6          # wie stark seltene Arten die Quote erhöhen (1 = fair, kleiner = schwächer)
+  cause-max-each: 6            # höchstens so viel Zusatzfaktor pro genannter Art
+  cause-max-multiplier: 40     # höchstens so viel Zusatzfaktor insgesamt
+  cause-partial-factor: 0.6    # stimmt die Anzahl, aber nicht alle Arten: Gewinn wird mit diesem Faktor verkleinert (zusätzlich zum Anteil der richtigen Arten)
+  # Kleine Wetten: auf den NAECHSTEN Tod eines Spielers (der muss online sein), jederzeit moeglich
+  small-hours: [1, 6, 24, 72]   # waehlbare Zeitfenster in Stunden (stirbt der Spieler erst danach, ist die Wette verloren)
+  small-max-stake: 2000         # hoechster Einsatz einer kleinen Wette (die Wettlizenz erhoeht das wie bei grossen Wetten)
+  small-max-open: 5             # offene kleine Wetten pro Spieler
+  small-margin: 0.15            # Marge des Hauses bei kleinen Wetten
+  small-play-factor: 1.5        # Online-Faktor: Spieler sterben nur waehrend sie spielen, daher mehr Tode pro Stunde als im Wochenschnitt
+  small-min-odds: 1.2
+  small-max-odds: 40
+  # Wettmanipulation im Schwarzmarkt: man beeinflusst das ERGEBNIS einer Woche (ein Tod mehr oder weniger)
+  manipulation:
+    cost: 6000               # Preis (Schwarzmarkt-Rabatt und -Gebuehren wirken)
+    chance-percent: 35       # Grundchance (dazu der Wert der Buchmacher-Lizenz)
+    caught-percent: 30       # Chance, dass ein Fehlversuch auffliegt (Meldung an alle, dazu eine Strafe)
+    fine-factor: 1.5         # Strafe = Preis mal diesem Faktor (soweit der Spieler so viel hat)
+    max-per-player: 1        # so oft kann pro Woche am Ergebnis desselben Spielers gedreht werden
+    min-hours-before: 2      # in den letzten Stunden vor der Auswertung geht es nicht mehr
+  # Wettbaron: der Spieler mit dem hoechsten Einsatz der Woche bei ILLEGALEN (schwarzen) Wetten
+  baron:
+    min-stake: 2000          # so viel muss man in der Woche mindestens gesetzt haben
+    fee-percent: 5           # Anteil des Barons an den Gebuehren aller illegalen Wetten waehrend seiner Amtszeit
+  # Quote türken im Schwarzmarkt
+  rig:
+    cost: 4000               # Preis (Schwarzmarkt-Rabatt und -Gebühren wirken)
+    chance-percent: 45       # Grundchance, dass es klappt (dazu der Wert der Schmuggler-Lizenz)
+    odds-factor: 1.5         # so viel besser wird die Quote für dieses Ergebnis, wenn es klappt
+    share-percent: 30        # Anteil, den der Türker vom Gewinn jeder so gewonnenen Wette bekommt
+    max-per-week: 2          # so oft kann ein Spieler pro Woche türken
+
+blackmarket:
+  bounty-box-min: 3000       # Kopfgeld ab dieser Summe kann zusätzlich eine Mystery Box (Stufe 2) bringen
+  bounty-box-percent: 30
+  included-fee-percent: 3    # kleine Gebuehr, die in allen Schwarzmarkt-Preisen ohne eigene Gebuehr enthalten ist (Revier-Freikauf, Slots, Routen, Lizenzen, Insider-Tipp; bei der Auktion auf das Hoechstgebot). 0 = aus
+  # Schmugglerrouten (Gegenstueck der Kryptominer): bringen taeglich Habibi-Krypto
+  routes:
+    max: 32                  # hoechstens 32 Routen
+    base-price: 1500         # Preis der ersten Route; jede weitere kostet price-factor mal so viel
+    price-factor: 1.35
+    # Ertrag der ERSTEN Route pro Tag in Hundertsteln Habibi-Krypto fuer Stufe 1 bis 5 (20 = 0,20 Habibi-Krypto)
+    level-rewards: [20, 30, 45, 65, 90]
+    route-growth: 1.5        # jede weitere Route bringt so viel mal mehr als die davor (Preis steigt mit price-factor)
+    upgrade-factor: 0.4      # Aufwertung kostet Routenpreis * dieser Faktor * aktuelle Stufe
+    catch-percent: 50        # Chance pro Route und Tag, dass der Zoll sie erwischt (kein Ertrag)
+  enabled: true
+  offers: 10
+  # Aus so vielen gelosten Items werden die wertvollsten (verschiedenen) gewählt
+  candidates: 60
+  # Der Preis ist nur dieser Anteil des normalen Wertes (in Prozent)
+  price-percent: 45
+  # Grundchance, dass man das Item erhält. Dazu: Lizenz Schmuggler (Wert) und Glückspilz (Wert / 2)
+  chance-percent: 60
+  max-chance-percent: 95
+  # Kaufgebühr in Prozent obendrauf (geht aufs Shop-Konto). Lizenz Gebührenfrei: keine, Bestechung: weniger.
+  fee-percent: 12
+  # Verkaufen an den Händler: feste, schlechte Preise (Prozent vom normalen Wert)
+  sell:
+    price-percent: 25
+    # Chance pro belegtem Slot, dass der Händler es beim täglichen Wechsel kauft
+    buy-chance-percent: 20
+    # (Die Slots stehen jetzt im Abschnitt "revier:")
+  # Kopfgeld
+  bounty:
+    min-amount: 250
+    # Gebühr beim Aufgeben in Prozent obendrauf (geht aufs Shop-Konto)
+    fee-percent: 10
+    # Rückgabe beim Zurückziehen in Prozent (Gebühr ist verloren)
+    refund-percent: 100
+    # Ein Kopfgeld bleibt so viele Shop-Wechsel (12:00 Uhr) bestehen. Danach gehen die Coins komplett zurück
+    # an den Auftraggeber (die Gebühr bleibt weg).
+    reset-count: 3
+    # Mobköpfe, die man im Kopfgeld-Menü verkaufen kann (Coins pro Stück). Spielerköpfe zählen nicht.
+    # Wie viele Mobköpfe ein Spieler pro Tag höchstens verkaufen darf (alle Sorten zusammen)
+    mob-heads-daily-limit: 5
+    mob-heads:
+      ZOMBIE_HEAD: 400
+      SKELETON_SKULL: 400
+      CREEPER_HEAD: 600
+      PIGLIN_HEAD: 500
+      WITHER_SKELETON_SKULL: 1500
+      DRAGON_HEAD: 4000
+
+# ---------- Krypto, Miner und Ereignisse ----------
+crypto:
+  # Gebuehr beim Kaufen und Verkaufen (Prozent). Hoeher als bei den Aktien (stock.fee-percent).
+  fee-percent: 10
+  # Steuer auf den Gewinn beim Verkauf von Krypto (nicht bei der Habibi-Krypto)
+  tax-enabled: true
+  # Kurs zwischen min und max Coins (aendert sich taeglich zum Shop-Wechsel)
+  min-price: 1
+  max-price: 10000
+  # Feste Kaufbetraege im Menue (bis zu 3)
+  quick-amounts: [500, 2000, 10000]
+  krypto:
+    start-price: 500
+    # Schwankungsstaerke pro Tag (groesser = wilder; Aktien sind ca. 0.35)
+    volatility: 0.9
+    # Zu diesem Kurs zieht es den Preis langfristig zurueck
+    anchor-price: 600
+    reversion: 0.06
+  dunkel:
+    # Habibi-Krypto (Hinterhof-Boerse, nur mit Schmuggler-Lizenz)
+    start-price: 300
+    volatility: 1.3
+    anchor-price: 500
+    reversion: 0.06
+    # Chance pro Tag auf einen Rug Pull: Kurs faellt auf den Mindestpreis ...
+    rugpull-percent: 5
+    # Chance pro Tag auf einen Mondflug: der Kurs springt auf das x-Fache (nie am gleichen Tag wie ein Rug Pull)
+    moon-percent: 12
+    moon-multiplier: 2.0
+    # Hoechstkurs der Habibi-Krypto (die normale Krypto nutzt crypto.max-price)
+    max-price: 20000
+    # ... und alle Bestaende schrumpfen um so viel Prozent
+    rugpull-wipe-percent: 50
+  miner:
+    # Preis des ersten Miners; jeder weitere kostet "price-factor"-mal so viel wie der vorherige (2 = doppelt)
+    base-price: 1000
+    price-factor: 1.6
+    # Stufenpreis = Minerpreis * level-price-factor * aktuelle Stufe
+    level-price-factor: 0.4
+    # Anzahl Blocksorten der Quest = blocks-base + Minernummer / 4; je Sorte gibt es eine Menge (Erde/Stein viel,
+    # Erze wenig). Die Menge waechst mit der Minernummer um amount-per-miner (0.02 = +2 % je Miner) und sinkt
+    # je Stufe um level-reduction (0.06 = 6 % weniger je Stufe)
+    blocks-base: 5
+    amount-per-miner: 0.02
+    level-reduction: 0.06
+    # Belohnung einer Quest in Hundertstel Krypto (16 = 0,16): reward-base fuer Miner 1 auf Stufe 1,
+    # jeder weitere Miner bringt reward-growth mal so viel, dazu der Faktor der Stufe (Stufe 1 bis 10)
+    reward-base: 16
+    reward-growth: 1.5
+    level-multipliers: [1.0, 1.15, 1.35, 1.6, 1.9, 2.25, 2.65, 3.1, 3.6, 4.2]
+
+events:
+  # Zum Shop-Wechsel gibt es mit dieser Wahrscheinlichkeit (Prozent) EIN Ereignis pro Tag: erst wird ein Bereich
+  # (allgemein 12 Ereignisse / Schwarzmarkt 5 / Grosshandel 3) zufaellig gewaehlt, dann ein Ereignis daraus.
+  # Am Starttag (schedule.server-start) gibt es keins.
+  chance-percent: 100
+  # --- allgemeine gute Ereignisse ---
+  sale-factor: 0.8              # Grosser Ausverkauf: Preise im Server-Shop und Schwarzmarkt
+  invest-factor: 1.5            # Dividenden-Tag: Einkommen aus Item-Sets (dazu zahlt jede Aktie dividend-per-share Coins)
+  dividend-per-share: 1         # Dividenden-Tag: Coins pro gehaltener Aktie
+  payday-factor: 2.0            # Zahltag: Grundeinkommen
+  # (Steuerfreier Tag: keine Steuern; Gebuehrenfreier Tag: keine Gebuehren; Marktplatz-Tag: keine Einstellgebuehr)
+  # --- allgemeine schlechte Ereignisse ---
+  inflation-factor: 1.25        # Inflation: alle Preise
+  crisis-factor: 0.7            # Wirtschaftskrise: alle Ertraege
+  tax-high-factor: 2.0          # Steuerpruefung: alle Steuern
+  fee-high-factor: 2.0          # Gebuehrenerhoehung: alle Gebuehren
+  cuts-factor: 0.5              # Sparhaushalt: Grundeinkommen
+  market-high-factor: 2.0       # Marktplatz-Wucher: Einstellgebuehr im Spieler-Shop
+  # --- Schwarzmarkt-Ereignisse (wirken nur im Schwarzmarkt, nicht im normalen Shop) ---
+  # Wirkung im Schwarzmarkt:
+  black-chance-bonus: 30        # Schmugglernacht: Prozentpunkte auf die Kaufchance im Schwarzmarkt
+  dealer-high-bonus: 30         # Hehler-Hochsaison: Prozentpunkte mehr Kaufchance des Haendlers pro Slot
+  raid-chance-malus: 30         # Razzia: Prozentpunkte weniger Kaufchance (alle Routen werden aufgegriffen)
+  dealer-low-factor: 0.5        # Schnaeppchenjaeger: Haendler zahlt nur so viel
+  # Wirkung im normalen Shop (Nicht-Eingeweihte sehen nur diese, mit neutralem Namen):
+  black-fee-factor: 0.75        # Schmugglernacht: Einstellgebuehr im Spieler-Shop
+  dealer-high-tax-factor: 0.75  # Hehler-Hochsaison: Verkaufssteuer
+  holiday-fee-factor: 0.5       # Haendler im Urlaub: Einstellgebuehr im Spieler-Shop
+  bargain-shop-factor: 0.9      # Schnaeppchenjaeger: Preise im Server-Shop
+  bargain-set-factor: 0.9       # Schnaeppchenjaeger: Einkommen aus Item-Sets
+  raid-confiscate-percent: 15   # Razzia-Spiel: Chance in Prozent, dass ein Item im Verkaufs-Slot beschlagnahmt wird
+                                # (Lizenz Bestechung senkt sie um bis zu 80 %)
+  # (Haendler im Urlaub: der Schwarzmarkt-Haendler kauft heute nichts aus den Verkaufs-Slots)
+  # (Razzia: zusaetzlich wird ein zufaelliges Angebot im Spieler-Shop beschlagnahmt - keine Steuer-/Casino-Wirkung mehr)
+  # --- Grosshandel-Ereignisse (Grosshandelskunden lesen sie ganz, alle anderen nur die Wirkung im Shop) ---
+  ws-slump-factor: 0.7          # Absatzflaute: Praemien im Grosshandel
+  ws-slump-fee-factor: 0.75     # Absatzflaute: Einstellgebuehr im Spieler-Shop
+  ws-slump-chance-malus: 10     # Absatzflaute: Haendler Kaufchance in Prozentpunkten weniger
+  ws-small-factor: 0.5          # Lagerueberschuss: heute neu entstehende Auftraege sind so gross
+  ws-small-shop-factor: 0.95    # Lagerueberschuss: Preise im Server-Shop/Schwarzmarkt
+  ws-aid-factor: 0.5            # Branchenfoerderung: Steuer auf Grosshandel-Praemien
+  ws-aid-shop-tax-factor: 0.9   # Branchenfoerderung: Verkaufssteuer allgemein
+
+# ---------- Grosshandel (Lizenz Grosshandel) ----------
+wholesale:
+  enabled: true
+  sector-prices: [5000, 8000, 15000, 25000, 40000, 60000, 85000, 115000, 150000, 190000]   # Preis der 2. bis 10. Branche (die ERSTE ist immer gratis, der erste Wert wird nie benutzt) (Ausverkauf und Inflation wirken)
+  min-amount: 10000          # Grossauftrag: kleinste Menge
+  max-amount: 100000         # Grossauftrag: groesste Menge
+  pay-factor: 0.2            # Praemie pro Stueck = 20 % des Item-Werts aus der Preisliste
+  size-degression: 0.4       # Mengenrabatt: beim groessten Auftrag (max-amount) gibt es 40 % weniger Praemie pro Stueck als beim kleinsten (min-amount)
+  shareholder-bonus: 100     # Gesellschafter einer Branche: Coins von jedem dort erledigten Auftrag anderer Spieler (wird dem Erledigenden von der Praemie abgezogen)
+  ceo-bonus: 200             # CEO: Coins von jedem erledigten Auftrag aller Branchen (wird ebenfalls von der Praemie abgezogen)
+  max-open-orders: 32        # hoechstens so viele offene Auftraege pro Branche und Spieler (1 bis 32)
+  # Handelsabkommen (pro Spieler und Woche nur eines; Wochenwechsel: Sonntag zur Shop-Wechsel-Zeit)
+  treaty:
+    supply-orders: 3         # Liefervertrag: so viele Auftraege in der Branche in der Woche erledigen
+    supply-bonus: 10         # Liefervertrag: Praemie + x % auf alle Auftraege der Branche
+    supply-penalty: 10000    # Liefervertrag: Vertragsstrafe in Coins, wenn nicht erfuellt (hoechstens das Guthaben)
+    exclusive-bonus: 15      # Exklusivabkommen: Praemie + x % in der gewaehlten Branche (keine neuen Auftraege in den anderen)
+    tax-fee: 5000            # Steuerabkommen: Kosten in Coins
+    tax-factor: 0.5          # Steuerabkommen: Steuer auf Grosshandel-Praemien x diesen Faktor
+    rush-fee: 5000           # Eilauftrag: Kosten in Coins
+    rush-factor: 2.0         # Eilauftrag: Praemie mal diesen Faktor
+    rush-days: 3             # Eilauftrag: so viele Tage gueltig, danach verfaellt er
+    storage-fee: 4000        # Lagerabkommen: Kosten in Coins
+    storage-orders: 2        # Lagerabkommen: so viele neue Auftraege pro Branche und Tageswechsel (normal 1)
+    coop-minutes: 2          # Kooperation: so lange gilt die Anfrage (der Vertrag selbst gilt eine Woche)
+
+# ---------- Reviere des Schwarzmarkts ----------
+revier:
+  # Preis zum Freikaufen von Revier 1 bis 7 (Revier 1 ist mit der Lizenz Schmuggler gratis dabei)
+  unlock-prices: [0, 1000, 3000, 7000, 15000, 30000, 60000]
+  # Startpreis des ersten Slots in Revier 1; verdoppelt sich von Revier zu Revier.
+  # Jeder weitere Slot im selben Revier kostet doppelt so viel wie der davor.
+  slot-base-price: 150
+  slot-growth: 1.3           # jeder weitere Slot im selben Revier kostet so viel mal den davor (frueher 2.0 = Verdopplung, am Ende unbezahlbar)
+  slot-max-price: 200000    # teurer wird ein Slot nie
+  # Wie viele Slots in Revier 1 gratis sind (die Lizenz Schwarzlager schenkt zusaetzliche Slots in jedem Revier)
+  free-first-slot: 1
+  # Rabatt im Server-Shop fuer Unterhändler (Prozent)
+  boss-discount-percent: 10
+  # Anteil der Schwarzmarkt-Gebuehren fuer den Paten (Prozent, aus dem Shop-Konto)
+  pate-fee-share-percent: 5
+  # Der Pate bekommt KEINEN Anteil mehr am Haendler-Ankauf (0). Wert > 0 bringt die alte Regel zurueck.
+  pate-sale-share-percent: 0
+  # So viele Minuten vor der Sonntags-Auswertung gibt es eine Erinnerung im Chat
+  reminder-minutes: 30
+  # Kopfgeld auf den Paten mindestens
+  pate-bounty-min: 5000
+  # Mindest-Kopfgeld auf einen Unterhändler
+  boss-bounty-min: 2000
+  # Anteil in % an den Gebuehren (Revier-Freikauf, Slot-Kaeufe und Einstellgebuehren) des eigenen Reviers, aus dem Shop-Konto
+  boss-fee-share-percent: 2
+  # Einstellgebuehr in % vom Verkaufspreis, wenn man im Revier ein Item einstellt (Gebuehrenfrei, Bestechung und Ereignisse wirken)
+  list-fee-percent: 10
+
+# ---------- Schutzgeld ----------
+# Der Pate (alle Reviere) und die Unterhändler (nur ihr Revier) koennen Spielern Schutz anbieten.
+# Der Spieler gibt "percent" Prozent von dem ab, was der Haendler ihm zahlt, und der Haendler kauft seine
+# Items dafuer mit "chance" Prozentpunkten hoeherer Chance. Die Vertraege enden mit der Sonntags-Auswertung.
+schutzgeld:
+  pate-percent: 5
+  pate-chance: 10
+  boss-percent: 2
+  boss-chance: 5
+
+# ---------- Kurzzeit-Ereignisse (hoechstens eine Stunde) ----------
+# Spontan, nur wenn jemand online ist. Es gibt drei: Blitzverkauf (Preise im Server-Shop und Schwarzmarkt),
+# Goldene Stunde (Casino-Gewinne, Jackpot ausgenommen) und Gebuehrenfreie Stunde (Boersen und Schwarzmarkt).
+flash:
+  enabled: true
+  # Im Schnitt alle so viele Minuten startet eines (Zufall; 240 = etwa 6 pro Tag bei durchgehend Spielern online)
+  average-minutes: 240
+  # Dauer in Minuten (hoechstens 60)
+  blitz-minutes: 30
+  gold-minutes: 20
+  fee-minutes: 45
+  # Blitzverkauf: Preisfaktor (0.7 = 30 % guenstiger)
+  blitz-factor: 0.7
+  # Goldene Stunde: Casino-Gewinne um so viel Prozent hoeher
+  gold-bonus-percent: 100
+
+# ---------- Tägliches Gratis-Glücksrad ----------
+# Einmal pro Tag (Wechsel zur Shop-Zeit) gratis. amount = Coins, weight = Gewicht (je groesser, desto haeufiger)
+daily-wheel:
+  box-per-1000: 25               # Chance in Promille auf eine einfache Mystery Box statt Coins
+  prizes:
+    - {amount: 3,   weight: 30}
+    - {amount: 5,   weight: 25}
+    - {amount: 10,  weight: 20}
+    - {amount: 20,  weight: 12}
+    - {amount: 40,  weight: 8}
+    - {amount: 80,  weight: 4}
+    - {amount: 200, weight: 1}
+
+# ---------- Hehlerwaren-Auktion ----------
+# Jede Woche (Sonntag zur Shop-Zeit) wird ein Item versteigert. Eintrag: "MATERIAL:Anzahl:Mindestgebot".
+# Das Item wird zufaellig aus der Liste gewaehlt.
+auction:
+  enabled: true
+  # Manchmal wird statt eines Items eine hochstufige Mystery Box versteigert (Stufe 4 oder 5)
+  box-chance-percent: 25
+  bundle-percent: 35       # Chance, dass zum versteigerten Item eine Zugabe gehört (Mystery Box Stufe 2-3 oder ein Begleiter)
+  box-min-bids: [4000, 10000]     # Mindestgebot fuer Stufe 4 und Stufe 5
+  # Ein neues Gebot muss mindestens so viel Prozent ueber dem letzten liegen
+  min-raise-percent: 10
+  items:
+    - "NETHERITE_INGOT:2:1500"
+    - "ENCHANTED_GOLDEN_APPLE:2:1000"
+    - "TOTEM_OF_UNDYING:3:900"
+    - "BEACON:1:1200"
+    - "NETHER_STAR:1:1500"
+    - "TRIDENT:1:1000"
+    - "HEART_OF_THE_SEA:1:800"
+    - "SHULKER_SHELL:4:600"
+    - "ECHO_SHARD:3:700"
+    - "DIAMOND_BLOCK:8:1200"
+    - "WITHER_SKELETON_SKULL:1:1100"
+    - "ANCIENT_DEBRIS:8:700"
+    - "MUSIC_DISC_PIGSTEP:1:600"
+    - "NETHERITE_UPGRADE_SMITHING_TEMPLATE:2:900"
+
+# ---------------- Gewerbe (Firmen im Grosshandel) ----------------
+# Wer die Grosshandel-Lizenz hat, kann ein Gewerbe anmelden und Angestellte einladen.
+# Angestellte bekommen fuer jede abgegebene Menge einen Lohn (Prozent der Praemie pro Item) beim Abschluss des Auftrags.
+company:
+  ai-miner-bonus-percent: 3.0   # jeder KI-Mitarbeiter der Firma: so viel Prozent mehr Krypto bei der Miner-Quest
+  ai-miner-bonus-max: 15.0      # Obergrenze dieses Bonus
+  found-price: 5000
+  rename-price: 1000
+  name-max: 24
+  invite-minutes: 3
+  # Angestellte: Die Firma ist nicht ausbaubar. Alle Angestellten bekommen den gleichen Lohn pro abgegebenem Item.
+  staff-max: 32                # so viele Angestellte hat jede Firma hoechstens
+  wage-percent: 30             # Lohn in % der Praemie pro Item (fuer alle gleich)
+  wage-max-percent: 80         # alle Angestellten zusammen bekommen hoechstens so viel % der Auftragspraemie
+  wage-cap-per-order: 10000    # ...und jeder einzelne Angestellte bekommt hoechstens so viele Coins pro Auftrag. Reicht das nicht, wird nach der abgegebenen Menge geteilt.
+  # Firmenrang: Praemien fuer die fuenf umsatzstaerksten Firmen der Woche (Sonntag zum Wechsel)
+  # So viel Prozent der Rang-Praemie bekommen die Angestellten (nach ihren abgegebenen Items)
+  rank-staff-percent: 30
+  rank-prizes: [3000, 1500, 750, 400, 200]
+  # Ruf: waechst mit dem Gesamtumsatz der Firma. Ab diesen Gesamtumsaetzen gilt Rufstufe 1 bis 5;
+  # jede Stufe erhoeht die Rang-Praemie am Sonntag um diesen Prozentsatz.
+  reputation-turnover: [50000, 150000, 400000, 1000000, 2500000]
+  reputation-bonus-percent: [5, 10, 15, 20, 25]
+  # KI-Mitarbeiter: Preis des ersten Platzes, jeder weitere kostet das Doppelte. ai-max = Hoechstzahl.
+  ai-slot-price: 5000
+  ai-slot-growth: 1.25       # jeder weitere KI-Platz kostet so viel mal den davor (frueher 2.0)
+  ai-slot-max-price: 150000 # teurer wird ein Platz nie
+  ai-max: 32
+  # Preis fuer Stufe 2 bis 10 und Items pro Tag auf Stufe 1 bis 10 (Stufe 1 = 100, Stufe 10 = 500)
+  ai-level-price: [1200, 1800, 2700, 3900, 5400, 7800, 10800, 15000, 21000]
+  ai-items: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+
+# ---------------- Expeditionen (Lizenz "expedition") ----------------
+# Level 1 bis 10000 (Richtwert: komplett ausgebaute Ausruestung schafft etwa Level 1500, Ausruestung Stufe 16 etwa Level 65).
+# Jedes Level hat ein Budget an "Kosten" fuer Kreaturen (Huhn 1, Kuh 3, Zombie 6, Creeper 10 ... Waechter 300).
+# Das Budget verdoppelt sich in Level 1 bis 6 und waechst danach langsamer; was die Obergrenze (max-mobs) nicht aufnimmt, macht die Kreaturen
+# staerker. Dazu steigen Leben und Schaden mit den Formeln unten. Echtes Verdoppeln bis Level 10000 waere unmoeglich.
+# Admins (OPs) brauchen fuer Schwarzmarkt und Grosshandel eine Lizenz wie alle anderen (true = Admins duerfen immer hinein)
+admin-bypass-licenses: false
+
+expedition:
+  enabled: true
+  world: coinshop_expedition      # eigene leere Welt, wird automatisch erstellt
+  max-mobs: 40                    # hoechstens so viele Kreaturen pro Level
+  wave-size: 20                   # so viele erscheinen gleichzeitig
+  hp-factor: 0.02                 # Leben = 1 + (Level-1)^hp-exponent * hp-factor
+  hp-exponent: 0.5
+  dmg-factor: 0.015               # Schaden = 1 + (Level-1)^dmg-exponent * dmg-factor
+  dmg-exponent: 0.4
+  # Bosslevel = jedes 50. Level (das letzte Level einer Arena): mehr und schwerere Gegner, dazu ein Anfuehrer
+  boss-budget-factor: 2.0         # so viel mehr Budget fuer Kreaturen
+  boss-mob-factor: 1.5            # so viel hoeher die Obergrenze der Kreaturenzahl
+  boss-hp-factor: 1.25            # Leben aller Gegner mal diesem Faktor (der Anfuehrer hat zusaetzlich x1.5)
+  boss-dmg-factor: 1.15           # Schaden aller Gegner mal diesem Faktor
+  # CoinMobs: Zufallsereignis. Eine normale Kreatur des Levels erscheint zusaetzlich, golden gekennzeichnet.
+  # Wert = Kosten der Kreatur * Faktor * Staerke im Level (je schwerer der Gegner, desto mehr). Auszahlung nach dem geschafften Level.
+  coin-mob-chance-percent: 8      # Chance pro Level
+  kill-reward-factor: 0.05        # Levels und Tiefenmine: Wert aller Gegner eines Levels = Levelbelohnung mal diesen Wert (wie defense.reward-factor), verteilt auf die Kills; skaliert mit dem Belohnungs-Multiplikator
+  mini-boss-chance-percent: 8    # Chance pro Level auf einen Mini-Boss (wie beim CoinMob)
+  mini-boss-hp-factor: 3.0        # Leben der gewaehlten (staerksten) Kreatur mal diesem Faktor
+  mini-boss-dmg-factor: 1.5       # Schaden mal diesem Faktor
+  # Tiefenmine: einmal am Tag hinabsteigen, Erze abbauen (Coins je Erz), alle guardian-every Ebenen ein Waechter.
+  # Begleiter, Rollen und Faehigkeiten wie in den Expeditionslevels. Gegner: Staerke wie Expeditionslevel (Ebene x mob-level-factor).
+  mine:
+    enabled: true
+    start-factor: 0.025           # Ertragsfaktor auf Ebene 1 (Erz-Grundwert mal Faktor: Kohle = 2 Coins * 0.025 = 0,05 Coins); der Belohnungs-Multiplikator (bis x10) gilt zusätzlich
+    depth-growth: 0.15            # Ertragsfaktor = start-factor * (1 + (Ebene-1) * depth-growth) ^ depth-exponent
+    depth-exponent: 1.1
+    pickaxe-bonus-percent: 2.5    # pro Spitzhacken-Stufe so viele Prozent mehr Coins je Erz
+    guardian-every: 10            # jede so-vielte Ebene ist eine Waechter-Ebene (der Schacht oeffnet erst nach dem Sieg)
+    mobs-base: 3                  # Gegner auf Ebene 0; dazu mobs-per-depth pro Ebene (Wächter-Ebenen x1,5), so wird jede Ebene voller
+    mobs-per-depth: 1.0
+    hp-per-depth: 0.12            # Leben der Gegner = 1 + Ebene * Faktor
+    dmg-per-depth: 0.08           # Schaden der Gegner = 1 + Ebene * Faktor
+    mob-level-factor: 2.0         # Staerke der Gegner = Ebene mal Faktor, wie ein Expeditionslevel
+    level-minutes: 6              # so lange darf eine Ebene dauern; danach steigt man mit der Beute auf
+    death-keep-percent: 50        # faellt man, behaelt man so viel Prozent der Beute
+    veins-base: 14                # Erzadern pro Ebene (plus bis zu 10 mit der Tiefe)
+    ore-percent: 30               # Chance je Block einer Ader auf ein Erz (waechst mit der Tiefe bis +25)
+    special-per-1000: 15          # Chance je abgebautem Erz auf einen Sonderfund (Geode 60 %, Goldader 28 %, Fossil 12 %)
+    geode-factor: 25              # Geode: Wert des Erzes mal Faktor
+    boost-factor: 3               # Goldader: so viel mehr Coins je Erz ...
+    boost-seconds: 60             # ... fuer so viele Sekunden
+  # Wellen-Ereignisse: kurze Zufallsereignisse im Level (und in der Verteidigung ab einer Welle). Gute und schlechte wechseln sich ab.
+  hunt:
+    idle-seconds: 5               # steht ein Begleiter so lange herum, obwohl Gegner da sind, sucht er sich selbst einen
+    idle-teleport-seconds: 14     # nach so langer Zeit wird er neben einen Gegner gesetzt
+  event:
+    enabled: true
+    chance-percent: 8             # Chance pro Level / Welle auf ein Ereignis (selten)
+    min-level: 6                  # ab diesem Level
+    td-from-wave: 8               # in der Verteidigung ab dieser Welle
+    trader-price-factor: 0.25     # Händler: Preis = Levelbelohnung mal Faktor (mindestens trader-min-price)
+    trader-min-price: 20
+    bounty-factor: 0.4            # Kopfgeld = Levelbelohnung mal Faktor (mindestens 20)
+    treasure-factor: 0.6          # Schatzraum: Coins = Levelbelohnung mal Faktor
+    treasure-box-percent: 25      # Chance auf eine Mystery Box (Stufe 1) beim Schatzraum
+    weights:                      # Gewicht je Ereignis (0 = aus)
+      raid: 8
+      trader: 0                   # Händler-Ereignis ist entfernt
+      treasure: 5
+      thunder: 8
+      fog: 8
+      reinforce: 8
+      poison: 6
+      gold: 8
+      bounty: 8
+      quake: 4
+    seconds:                      # Dauer je Ereignis in Sekunden
+      raid: 45
+      trader: 40
+      treasure: 60
+      thunder: 30
+      fog: 30
+      reinforce: 35
+      poison: 30
+      gold: 30
+      bounty: 60
+      quake: 25
+  # Prüfungen (Ereignisfolgen): jedes zehnte Level besteht aus mehreren Teilen (Gauntlet, Turm, Wellensturm, Jagd, Zwillingsboss)
+  exam:
+    enabled: true
+    prep-seconds: 10              # Vorbereitung vor dem ersten Teil (Wellensturm immer 60)
+    pause-seconds: 20             # Pause zwischen den Teilen
+    reward-factor: 3              # Levelbelohnung mal diesem Faktor, dazu eine Mystery Box
+    hunt-seconds: 90              # Jagd: Zeit pro Teil
+    resume-hours: 24              # so lange gilt der Zwischenstand einer gescheiterten Pruefung
+    twin-heal-percent: 3.0        # Zwillingsboss: so viel % Leben heilt jeder Zwilling pro Sekunde, solange der andere lebt
+  # Tipps im Spiel: jedem Spieler wird jeder Tipp genau einmal gezeigt
+  tips:
+    enabled: true
+  # Training (Trainingsplätze): Begleiter sammeln pro Stunde Erfahrung, Ergebnis wird abgeholt
+  training:
+    enabled: true
+    base-slots: 1
+    max-slots: 5
+    slot-price: 5000              # erster zusätzlicher Platz, jeder weitere doppelt so teuer
+    kills-per-hour: 5.0           # Erfahrung (Kills) pro Stunde bei Level 1
+    level-brake: 50.0             # je höher das Level, desto weniger: Rate = Basis * Bremse / (Bremse + Level)
+    max-hours: 24
+    cost-per-hour: 30             # Preis pro Stunde = Grundpreis + Preis pro Level mal Level
+    cost-per-level: 5
+  # Söldner: Begleiter an andere Spieler vermieten (bis zum nächsten Shopwechsel)
+  mercenary:
+    enabled: true
+    min-price: 50
+    max-price: 1000000
+    shop-percent: 10              # Anteil der Miete für den Shop
+    max-offers: 3                 # so viele Angebote gleichzeitig pro Spieler
+    max-rented: 2                 # so viele Söldner gleichzeitig mieten
+    owner-xp-per-level: 3         # Erfahrung (Kills) für den Besitzer je geschafftem Level seines Söldners
+  # Typ-Bonus der Arena (Biom): passt der Typ einer Kreatur zur Arena, hat sie mehr Leben und Schaden (Verbuendete und Gegner)
+  biome:
+    enabled: true
+    buff-percent: 25
+  # Rolle Verteidiger (Golems, Guerteltier, Schildkroete, Schnueffler, Kamel): mehr Leben, lenkt Gegner auf sich (Schaden normal)
+  defender:
+    hp-factor: 1.6
+    dmg-factor: 1.0
+    taunt-radius: 8
+    taunt-seconds: 3
+  # Sichtbare Ruestung der Begleiter (nur optisch). Erst nichts, dann Schuhe, Helm, Hose, Brustpanzer aus Leder, danach Kette, Eisen, Diamant, Netherit.
+  visual-armor:
+    enabled: true
+    first-level: 4                # erstes Teil ab diesem Level
+    levels-per-step: 4            # danach alle so viele Level ein Teil mehr (20 Teile, ab Level 80 alles Netherit)
+    animal-levels: [5, 15, 30, 50, 80]   # Tiere: Sattel / Wolfsruestung / Lamateppich, danach Pferderuestung (Leder, Eisen, Gold, Diamant); Farben zufaellig
+  # Duelle gegen NPCs (Rangleiter, Turnier, Einsatz, Risikokampf)
+  npc-duel:
+    max-team: 6                   # so viele Begleiter kaempfen (die staerksten des Gefolges)
+    cooldown-seconds: 30
+    replays-per-day: 5            # bezahlte Wiederholungen pro Shop-Tag
+    replay-percent: 20            # Belohnung einer Wiederholung in Prozent
+  # Untergrund-Arenen der Schwarzmarkt-Reviere (Schmuggler-Lizenz noetig)
+  arena:
+    max-stationed: 5              # Verteidiger pro Arena (mindestens 1)
+    challenge-cooldown-seconds: 300
+    daily-base: 300               # Tagesertrag (mal 1 + 0,25 je Revier)
+    per-defense: 150              # plus Coins je abgewehrtem Herausforderer
+    first-capture-reward: 500     # einmalige Eroberungspraemie (mal Revier-Nummer)
+    npc-base-level: 8             # Level der NPC-Verteidiger im ersten Revier
+    npc-level-step: 7             # plus Level je Revier
+  heal-now:                       # Begleiter vorzeitig wieder fit machen (Shift+Klick im Begleiter-Menü)
+    base-price: 300
+    per-level: 50                 # plus Preis pro Level des Begleiters
+    rest-percent: 50              # bei bloßer Ruhe (statt Verletzung) nur dieser Anteil des Preises
+  mini-boss-tier2-percent: 30     # Chance auf eine Mystery Box der Stufe 2 (sonst Stufe 1)
+  reward-value-per-tier: 10000    # jede einzelne Belohnung aus Box und Loot-Mob ist hoechstens Stufe * diesen Wert wert
+  loot-invest-factor: 0.25        # Aktien/Krypto als Loot-Belohnung sind nur so viel wert (Anteil der normalen Belohnung)
+  count-variation: 0.45            # wie stark Kreaturenzahl und Budget von Level zu Level schwanken (0 = nie, 0.9 = sehr)
+  box-daily-cap: 0                 # Tageslimit fuer Mystery Boxen aus Expeditionen; 0 = unbegrenzt (die Begrenzung uebernimmt jetzt die Ausdauer)
+  box-caps:                        # Tageslimit je Quelle (0 = unbegrenzt); zusammen gilt zusaetzlich box-daily-cap
+    boss: 0
+    mini: 0
+    exam: 0
+    treasure: 0
+    fossil: 0
+  enemy-allay:
+    hurt-seconds: 6                # ein getroffener gegnerischer Allay ist so lange langsam, regeneriert nicht und kann nicht geheilt werden
+  enemy-heal-percent: 4            # gegnerische Unterstuetzer heilen pro Sekunde so viel Prozent des Lebens ihres Ziels
+  aspect:
+    off-type-factor: 0.4           # Schaden-/Schutz-Aspekte wirken gegen nicht passende Typen nur zu diesem Anteil
+  coin-mob-max: 3                 # hoechstens so viele pro Level (1 + Level/1000)
+  coin-mob-cost-factor: 2.0
+  # Stufen der CoinMobs: 1 Eisen, 2 Gold, 3 Smaragd, 4 Diamant, 5 Netherit (Leuchtfarbe, Name, mehr Leben)
+  coin-mob-tier-weights: [60, 25, 10, 4, 1]   # Haeufigkeit je Stufe (mit hoeherem Level werden hohe Stufen haeufiger)
+  coin-mob-tier-value: [1.0, 2.0, 4.0, 8.0, 16.0]   # Wertfaktor je Stufe
+  # Loot-Mob: aeusserst selten (violett, funkelt). Wird er erlegt und das Level geschafft, gibt es eine wertvolle Shop-Belohnung
+  # (Coins, Aktien, Krypto, Lizenz, Miner, Slots, Revier, Route, KI-Platz ...). Nur Dinge, die der Spieler noch bekommen kann.
+  loot-mob:
+    per-10000: 3                  # 3 von 10000 Leveln (etwa 1 von 3300; frueher 1 von 1000)
+    value-base: 40000             # Wert in Coins: (base + Level * per-level) mal 1 bis 2,5
+    value-per-level: 40
+    # Qualitaet 1 bis 5 nach Schwierigkeit: ab diesen Leveln jeweils eine Stufe mehr; Kreatur mit Kosten ab 30 +1, ab 100 +2.
+    # Hoehere Qualitaet = mehr Wert, bessere Lizenzen/Miner/Reviere, seltener nur Coins; Qualitaet 3-4: zwei, 5: drei verschiedene Belohnungen.
+    tier-levels: [20, 100, 500, 2000]
+    tier-shift-percent: 20          # Loot-Mob: je so viel Prozent Chance auf eine Stufe niedriger bzw. hoeher als die Schwierigkeit
+    tier-value-factor: [1.0, 1.5, 2.2, 3.2, 5.0]
+  companion-slot-price: 1500      # Preis des ersten Platzes, jeder weitere kostet companion-slot-growth mal den davor (Plaetze ohne Obergrenze)
+  companion-max-level: 50         # hoechstes Begleiter-Level (Level 2: 20 Kills, Level 3: 60, Level 4: 120 ... = 10 * L * (L-1))
+  companion-level-bonus: 0.08     # pro Level so viel mehr Leben und Schaden (0,08 = +8 %)
+  rarity-weights: [70, 22, 7, 1]  # Chance in Gewichten fuer Normal, Selten, Episch, Legendaer beim Kauf eines Begleiters
+  deck:                           # Gefolge-Limit: jedes mitgenommene Exemplar kostet Sterne
+    base: 16                      # Sterne ohne freigekaufte Plaetze
+    per-slot: 6                   # zusaetzliche Sterne je freigekauftem Begleiter-Platz
+  tribute:                        # Opfer: starke Begleiter kosten zusaetzlich geopferte Exemplare
+    min-stars: 5                  # ab so vielen Sternen ein Exemplar
+    two-from-stars: 7             # ab so vielen Sternen zwei Exemplare (Wither, Warden, Grosser Waechter ...)
+    min-tribute-stars: 3          # das Opfer braucht mindestens so viele Sterne (und weniger als der Gekaufte)
+  wholesale:                      # Begleiter im Grosshandel (ordnen einem Auftrag zu, liefern taeglich)
+    items-per-day: 6              # Grundmenge je Tag (mal Level-Faktor, Eignung, Seltenheit, Eigenschaften)
+    level-bonus: 0.08             # je Level so viel mehr
+    compat-strong: 1.6            # Eignung Experte
+    compat-weak: 0.5              # Eignung fachfremd (passender Typ = 1.0)
+    xp-per-day: 3                 # Erfahrung (Kills) je Lieferung
+    min-hours: 6                  # so lange muss ein Begleiter mindestens gearbeitet haben, sonst liefert er noch nichts (die Zeit zählt weiter)
+    full-day-hours: 24            # Lieferung anteilig nach Arbeitszeit: erst nach so vielen Stunden die volle Tagesmenge
+    base-slots: 3                 # so viele Zuteilungen ohne freigekaufte Begleiter-Plaetze
+    slots-per-slot: 1             # zusaetzliche Zuteilungen je freigekauftem Begleiter-Platz
+  breed:                          # Zucht
+    cost-base: 1500
+    cost-percent: 20              # plus so viel Prozent des mittleren Grundpreises der Eltern
+    inherit-percent: 30           # das Kind startet mit so viel Prozent der mittleren Erfahrung der Eltern
+    rest-hours: 6                 # so lange ruhen die Eltern danach
+    rarity-up-percent: 15
+    rarity-down-percent: 25
+    new-trait-percent: 20
+  fusion:
+    cost-percent: 10              # Prozent des Grundpreises der entstehenden Art
+    refine-cost-percent: 15       # Veredelung zweier gleicher Arten (eine Seltenheit hoeher)
+    inherit-percent: 50           # Prozent der gesamten Erfahrung beider, die das Ergebnis erbt
+  duel:
+    max-stake: 5000
+    tax-percent: 10               # Anteil des Einsatzes, der an den Shop geht
+    cooldown-seconds: 120
+  # Begleiterreisen: Dauer waehlbar. Ziele schaltet der Meilenstein (hoechstes geschafftes Expeditionslevel) frei.
+  trip:
+    milestones: [50, 100, 150, 200, 300, 400, 500, 650, 800, 1000, 1250, 1500, 1800, 2100, 2500, 3000, 3500, 4000, 5000, 6000, 7000, 8000, 9000, 10000]   # 24 Ziele, jeder Meilenstein ist ein Boss-Level (Vielfache von 50)
+    durations-hours: [1, 4, 8, 12, 24]
+    waves-per-hour: 1.0           # so viele Kreaturen-Wellen (Kreaturen des Meilenstein-Levels) pro Stunde besiegt die Gruppe bei voller Staerke
+    xp-factor: 0.2                # Erfahrung auf Reisen: besiegte Kreaturen mal dieser Wert, verteilt auf alle Mitreisenden (im Level zaehlt jeder Kill voll)
+    injury-hours: 12              # so lange sind Verletzte nicht verfuegbar
+    loot-event-permille: 1        # Chance je Welle auf einen Loot-Mob (Promille; frueher 3)
+    yield-percent: 10             # so viel Prozent des moeglichen Loots (Level-Belohnung, CoinMobs, Loot-Mobs bis zum Meilenstein) bringt eine 24-Stunden-Reise bei voller Staerke
+    coin-mob-share: 0.5           # CoinMobs zaehlen als so viel Anteil der Level-Belohnung zum moeglichen Loot
+    power-per-level: 0.6          # noetige Begleiter-Staerke = Meilenstein * dieser Wert
+    base-injury-percent: 3        # Verletzungschance je Begleiter, bei zu schwacher Gruppe bis zu +40 Prozentpunkte
+    coin-event-percent: 12        # Chance je Welle auf einen CoinMob unterwegs
+  # Verteidigung (Tower Defense): Gegner laufen auf den Kern in der Mitte zu, die Begleiter halten feste Posten.
+  # Der Kern darf nicht zugebaut werden: Bloecke nahe am Kern und Bloecke, die den Weg versperren, werden abgelehnt.
+  defense:
+    enabled: true
+    core-block: BEACON            # Aussehen des Kerns
+    core-hp: 500                  # Leben des Kerns zu Beginn
+    core-hp-per-wave: 10          # der Kern wird nach jeder Welle um so viel belastbarer
+    wave-core-heal: 0.1           # nach jeder Welle heilt der Kern um diesen Anteil seiner Leben
+    core-damage-factor: 0.5       # Schaden pro Sekunde am Kern = Angriffsschaden des Gegners mal dieser Wert
+    free-radius: 4                # in diesem Umkreis um den Kern darf nicht gebaut werden
+    post-range: 14                # Reichweite eines Begleiters um seinen Posten
+    mob-follow-range: 12          # Gegner sehen Spieler und Begleiter nur aus dieser Naehe, sonst laufen sie zum Kern
+    arena-tier: 3                 # welche Arena benutzt wird (immer dieselbe, es gibt keine Verteidigungs-Level)
+    wave-pause-seconds: 12        # Pause zwischen zwei Wellen
+    max-players: 4          # wie viele Spieler gemeinsam verteidigen dürfen
+    coop-bonus-percent: 20  # Beute-Bonus pro Mitspieler
+    coop-hp-growth: 0.3     # Gegner werden pro Mitspieler um so viel zäher (0.3 = +30 %)
+    prep-seconds: 60              # Vorbereitungszeit vor der ersten Welle
+    wave-timeout-seconds: 240     # danach werden uebrige Gegner zum Kern geholt
+    wave-hp-growth: 0.05          # jede Welle haben die Gegner so viel mehr Leben (zusaetzlich zur normalen Steigerung)
+    wave-dmg-growth: 0.03         # und so viel mehr Schaden
+    reward-factor: 0.05           # Wert einer Welle = normale Level-Belohnung der Wellenzahl mal diesen Wert (bewusst klein), verteilt auf die Kills
+    support-core-factor: 4.0      # Unterstuetzer heilen den Kern so viel staerker als dich
+  support:
+    charges: 2                     # ein Unterstuetzer-Begleiter kann in einem Level nur so oft eine feste Menge heilen
+    base-heal: 4.0                 # eine Heilung heilt am Anfang so viel (4 = zwei Herzen), waechst mit Level, Seltenheit und Eigenschaften
+    max-same-type: 2               # (nur Gegner) ein gegnerischer Unterstuetzer heilt von seiner eigenen Art nur so viele verschiedene Ziele
+    levels-per-slot: 20            # (nur Gegner) alle so viele Level kommt ein weiteres Heilziel dazu
+    max-slots: 4                   # (nur Gegner) so viele Heilziele hat ein gegnerischer Unterstuetzer hoechstens. Er heilt nur Gegner vom selben Typ.
+    allay-factor: 0.6              # der Hilfsgeist (Allay) heilt nur so viel wie andere Unterstuetzer (Faktor auf die Heilrate)
+    heal-per-xp: 20                # so viele geheilte Leben zaehlen wie ein Kill fuer die Stufe des Unterstuetzers
+    heal-base: 0.25               # Unterstuetzer-Begleiter heilen pro Sekunde: base + per-star mal Sterne, mal Level- und Seltenheitsbonus
+    heal-per-star: 0.03
+    max-heal: 3.0                 # Obergrenze (Leben pro Sekunde fuer alle zusammen)
+  power:
+    levels-per-use: 10             # alle so viele Level (bzw. Wellen) hat eine Kreatur einen Faehigkeits-Einsatz mehr
+    max-uses: 8                    # hoechstens so viele Einsaetze pro Level/Welle
+    xp-per-use: 2                  # so viele Kills zaehlt jeder Faehigkeits-Einsatz eines Begleiters fuer sein Level (0 = aus)
+  level-minutes: 10               # Zeitlimit pro Level (danach gilt es als verloren)
+  continue-seconds: 90            # so lange kann man nach einem Level "weiter" waehlen
+  block-material: COBBLESTONE     # Material der Expeditions-Bloecke
+  reward-mult-max: 10             # hoechste Stufe des Belohnungs-Multiplikators (man startet auf Stufe 1 = einfache Belohnung)
+  reward-mult-per-stage: 1.0      # Faktor = Stufe * dieser Wert (Stufe 2 = zweifach usw.)
+  reward-mult-base-price: 1000    # Preis von Stufe 2, jede weitere doppelt so teuer
+  reward-mult-price-factor: 1.6   # jede weitere Stufe kostet so viel mal die davor (frueher 2 = Verdopplung)
+  companion-price-factor: 0.5     # alle Begleiter-Grundpreise mal diesem Faktor
+  companion-copy-growth: 1.5      # jedes weitere gekaufte Exemplar derselben Art kostet so viel mal das davor (frueher 2)
+  companion-slot-growth: 1.5      # jeder weitere Begleiter-Platz kostet so viel mal den davor (frueher 2)
+  budget-early-growth: 1.5        # Level 1 bis 6: Kreaturen-Budget wächst pro Level um diesen Faktor (1, 1.5, 2.3 ... 7.6)
+  budget-exponent: 0.45           # danach: 7.6 * (Level/6)^dieser Wert (kleiner = langsamer schwerer)
+  budget-cost-cap: 0.2            # eine einzelne Kreatur darf hoechstens so viel vom Level-Budget kosten (Bosse kommen so erst spaet)
+  # Ausruestung: Preis = base * factor^(Stufe-1). Standardwerte stehen im Code; hier ueberschreibbar, z. B.:
+  # gear:
+  #   sword: {base: 100, factor: 1.10}
+  utility:                        # Einmal-Preise der Utensilien
+    shield: 1000
+    milk: 800
+    cobweb: 1500
+    heal: 4000
+    strength: 6000
+    totem: 25000
+    pearl: 5000
+    wind: 3000
+    fireres: 2500
+    speed: 2000
+    regen: 6000
+    harm: 7000
+    slow: 3500
+    night: 800
+  companion:                      # Einmal-Preise der Begleiter
+    wolf: 8000
+    cat: 6000
+    fox: 7000
+    bee: 5000
+    irongolem: 40000
+    polarbear: 25000
+    skeleton: 15000
+    witch: 30000
+    llama: 9000
+    allay: 12000
+    goat: 7500
+    panda: 14000
+    rabbit: 6500
+    snowman: 6000
+    vex: 18000
+    witherskeleton: 22000
+    piglinbrute: 24000
+    ravager: 50000
+    vindicator: 20000
+    pillager: 18000
+    bogged: 17000
+
+# ---------------- Drogenhandel (im Schwarzmarkt) ----------------
+drugs:
+  enabled: true
+  batch-units: 10                 # Einheiten je Charge
+  batch-cost-factor: 0.6          # Kosten einer Charge = Normalpreis * Einheiten * Faktor
+  production-minutes: 30          # Dauer der ersten Ware, jede teurere Ware dauert laenger
+  lab-upgrade-base: 800          # Labor-Stufe n -> n+1 kostet Basis * n * n
+  lab-quality-bonus: 5            # je Labor-Stufe so viele Punkte besser beim Qualitaetswurf
+  mix-units: 5                    # Einheiten, die beim Mischen eine Stufe aufsteigen
+  mix-cost-factor: 1.5            # Kosten eines Mischvorgangs = Normalpreis * Zusatzstoff-Faktor * dieser Wert
+  loyalty-units: 25               # je so viele Verkaeufe steigt die Treue eines Kunden um 1 (bis 10)
+  demand-base: 3                  # Grundmenge für alle Kunden: 3 = normal (Karl 3, Lea 5, ... Madame X 12 Einheiten pro Tag, täglich ±30 % schwankend, plus Treue / 2). Höher = alle nehmen mehr
+  heat-per-unit: 0.5              # Hitze je verkaufter Einheit (teurere Waren mehr)
+  heat-decay-per-hour: 6          # so viel Hitze verfliegt pro Stunde
+  raid-chance-per-heat: 0.6       # Razzia-Chance in Prozent je Hitzepunkt ueber 50
+  raid-loss-percent: 40           # so viel Ware geht bei einer Razzia verloren
+  raid-fine: 800                  # Strafe (mal Labor-Stufe)
+  raid-dealer-percent: 25         # Chance, dass bei einer Razzia ein Dealer festgenommen wird
+  raid-heat-after: 30             # Hitze nach einer Razzia
+  bribe-cost: 2000                # Schmiergeld (mal Labor-Stufe)
+  bribe-heat: 30                  # so viel Hitze sinkt dadurch
+  dealer-hire: 8000               # erster Dealer, jeder weitere kostet entsprechend mehr (mal Anzahl)
+  dealer-max: 5
+  dealer-units-per-hour: 6        # Einheiten je Dealer und Stunde
+  dealer-commission-percent: 25   # Anteil, den die Dealer behalten
+  dealer-max-hours: 24            # so lange wird rueckwirkend abgerechnet
+  dealer-heat-per-unit: 0.2
+  boss-cut-percent: 5             # Abgabe vom Verkauf an den Unterhaendler des Reviers
+  pate-cut-percent: 2             # Abgabe vom Verkauf an den Paten
+
+# Sklavenhandel im Schwarzmarkt: jeden Tag ein Begleiter mit schlechten Werten (bis zum Shop-Wechsel)
+creature-auction:
+  bundle-box-percent: 30   # Chance, dass die Kreatur des Tages mit einer Mystery Box (Stufe 1-2) als Zugabe kommt
+  enabled: true
+  start-percent: 20               # Mindestgebot = so viel Prozent des Grundpreises der Art
+  min-start: 200                  # mindestens so viel
+  min-raise-percent: 10           # jedes neue Gebot muss so viel Prozent hoeher sein
+  sell-percent: 50                # der Shop zahlt so viel Prozent des Werts, wenn man einen Begleiter verkauft
+  level-bonus-percent: 5          # Wert eines Begleiters: pro Level so viel Prozent mehr
+  fee-percent: 5                  # Gebuehr des Shops bei Versteigerungen von Spielern
+  max-lots-per-player: 3          # so viele eigene Angebote gleichzeitig
+  min-minutes-before-reset: 30    # so kurz vor dem Shop-Wechsel kann man nichts mehr einstellen
+
+# ---------------- Mystery Boxen ----------------
+# Ein Item (Stufe 1 bis 5); Rechtsklick oeffnet es. Inhalt: wie beim Loot-Mob etwas aus dem Shop-Bereich.
+# Quellen: alle Tagesaufgaben (Stufe 1), Loginserie alle 7 Tage (login-streak.box-tiers), Casino (box-odds, box-tier je Spiel),
+# Gratis-Gluecksrad (daily-wheel.box-per-1000), Wochenauktion (auction.box-chance-percent).
+
+# Shop-Maskottchen: ein Begleiter (Auswahl im Profil, Ecke oben links) bringt Rabatt, aber nur im Shop
+mascot:
+  enabled: true
+  base-percent: 1.0        # Rabatt für ein normales Exemplar auf Level 1
+  rarity-percent: 0.5      # plus pro Seltenheitsstufe (Selten, Episch, Legendär)
+  level-percent: 0.03      # plus pro Level über 1
+  max-percent: 5.0         # Obergrenze (zusätzlich zu allen anderen Rabatten)
+  task-expert: 2.0         # Aufgaben-Buff: passt der Begleiter als Experte zur Aufgabenart (wie bei den Großhandel-Branchen), zählt der Fortschritt so oft
+  task-fit: 1.5            # passt er (richtiger Typ), zählt er so oft; fachfremd = normal
+  quest-factor: 2.0        # Tagesaufgaben: Belohnung +Rabatt-Prozent mal diesen Faktor (bei 5 % Rabatt also +10 %)
+  luck-factor: 5.0         # Wahrscheinlichkeiten (Mob-Drops, Angeln, Erze, Box-Chancen im Casino und Gratis-Rad): +Rabatt-Prozent mal diesen Faktor (5 % -> +25 %)
+
+mystery-box:
+  enabled: true
+  levels: [30, 150, 600, 2500, 6000]   # entspricht dem "Level" des Loot-Mobs je Stufe (bestimmt den Wert der Belohnung)
+  # Boxen sind reine Menü-Einträge (Profil, Ecke oben rechts). Normale Mobs können sie selten fallen lassen (nur Chat-Meldung)
+  first-boss-kill: true      # einmalig eine Box beim ersten Sieg über Enderdrache (Stufe 4), Wither, Warden (3), Wächter-Boss (2)
+  sell-prices: [100, 400, 1600, 6000, 20000]   # was der Shop fuer eine Box der Stufe 1 bis 5 zahlt
+  mob-drop:
+    enabled: true
+    no-spawner: true            # Mobs aus Spawnern zählen nicht (gegen Farmen)
+    rare-odds: 100              # Selten: 1 zu 100 pro Kill
+    rare-coins-min: 60
+    rare-coins-max: 200
+    rare-box-percent: 2         # bei einem seltenen Fund: Chance auf eine Box der Stufe 1 (insgesamt etwa 1 zu 5.000 Kills)
+    epic-odds: 8000             # Ganz selten: 1 zu 8000 pro Kill (immer Coins und eine Box der Stufe 2)
+    epic-coins-min: 1500
+    epic-coins-max: 4000
+    max-boxes-per-day: 2        # höchstens so viele Mob-Boxen pro Spieler und Tag
+
+# Ausdauer: Tiefenmine, Expeditionslevel und Verteidigung kosten beim Start Ausdauer. Ohne genug Ausdauer kein Start.
+stamina:
+  enabled: true
+  max-base: 100                    # Hoechstvorrat auf Stufe 1; neue Spieler beginnen damit voll. Auffuellen hoert hier auf
+  max-per-level: 10                # Hoechstvorrat steigt pro weitere Stufe um so viel
+  per-hour: 10                     # Auffuellung pro Stunde auf Stufe 1 (auch offline)
+  per-hour-per-level: 0.5          # zusaetzlich pro weitere Stufe
+  max-level: 0                     # 0 = keine Obergrenze fuer die Stufe
+  upgrade-price: 1500              # Preis fuer Stufe 2; jede weitere kostet upgrade-growth mal so viel
+  upgrade-growth: 1.2
+  cost:
+    mine: 50                       # ein Mine-Lauf
+    expedition: 5                  # ein Expeditionslevel (auch jedes weitere nach /expedition weiter)
+    defense: 1                     # eine Verteidigungswelle

@@ -1,0 +1,168 @@
+# Steckbrief des Plugins - der Server liest diese Datei beim Start.
+name: CoinShop
+version: 1.0.0
+main: de.coinshop.CoinShopPlugin
+# Falls der Server beim Start meldet, die API-Version sei nicht unterstützt,
+# trage hier die Version deines Servers ein (z. B. '26.3').
+api-version: '26.1'
+description: Coins als Währung (durch Erfolge verdienbar) plus Server-Shop und Spieler-Shop
+author: Jonas
+softdepend: [voicechat]
+
+commands:
+  coins:
+    description: Zeigt deinen Kontostand oder den eines anderen Spielers
+    usage: /coins [Spieler]
+  pay:
+    description: Überweise Coins an einen anderen Spieler
+    usage: /pay [Spieler] [Betrag]
+  baltop:
+    description: Zeigt die Rangliste der reichsten Spieler
+    usage: /baltop
+  shop:
+    description: Öffnet den Shop
+    usage: /shop
+  shopreset:
+    description: Setzt den Server-Shop zurück (neue Angebote, neuer Börsenkurs, tägliches Einkommen)
+    usage: /shopreset
+    permission: coinshop.admin
+  coinsadmin:
+    description: Verwaltung für Admins
+    usage: /coinsadmin [give|take|set|resetshop|reload|stats|log|backup|preise]
+    permission: coinshop.admin
+
+  tp:
+    description: "Zum Spawn teleportieren (Admins - normales /tp)"
+    usage: /tp spawn
+  spawn:
+    description: Zum Spawn teleportieren
+    usage: /spawn
+  sethome:
+    description: Setzt dein Zuhause an deine aktuelle Position
+    usage: /sethome
+  home:
+    description: Teleportiert dich zu deinem Zuhause
+    usage: /home
+  tpa:
+    description: Bittet einen Spieler, dass du dich zu ihm teleportieren darfst
+    usage: /tpa [Spieler]
+  tpaccept:
+    description: Nimmt eine Teleport-Anfrage an
+    usage: /tpaccept
+  tpdeny:
+    description: Lehnt eine Teleport-Anfrage ab
+    usage: /tpdeny
+  handel:
+    description: Handel mit einem anderen Spieler (Coins und Set-Items)
+    usage: /handel [Spieler]
+    aliases: [trade]
+  buchhaltung:
+    description: Deine Buchhaltung - wann du was eingenommen und ausgegeben hast
+    usage: /buchhaltung
+    aliases: [konto, kontoauszug, ledger]
+  grosshandel:
+    description: Der Großhandelsmarkt (Lizenz Großhandel)
+    usage: /grosshandel
+    aliases: [wholesale, wh]
+  expedition:
+    description: Expeditionen (Arena-Kämpfe)
+    usage: /expedition [weiter|verlassen|duell|npc|arena|training|soeldner|bestenliste|hilfe|verteidigung <Spieler>|einladen|annehmen]
+    aliases: [expeditionen, exp]
+  verlassen:
+    description: Expedition vorzeitig abbrechen
+    usage: /verlassen
+  wetten:
+    description: Das Wettbüro (für alle offen, Lizenz Wetten erhöht die Einsatzgrenze)
+    usage: /wetten [abmelden|anmelden]
+    aliases: [wettbuero, bets]
+  revier:
+    description: Die Reviere des Schwarzmarkts (Verkaufs-Slots, Ranglisten, Pate)
+    usage: /revier
+    aliases: [reviere]
+  schutzgeld:
+    description: Schutzgeld des Paten und der Unterhändler
+    usage: /schutzgeld [anbieten|annehmen|ablehnen|beenden]
+    aliases: [schutz]
+  auktion:
+    description: Die Hehlerwaren-Auktion (jede Woche ein seltenes Item)
+    usage: /auktion
+    aliases: [hehlerware, versteigerung]
+  gluecksrad:
+    description: Das tägliche Gratis-Glücksrad
+    usage: /gluecksrad
+    aliases: [freirad, tagesrad]
+  krypto:
+    description: Die Krypto-Börse und die Krypto-Miner
+    usage: /krypto
+    aliases: [crypto]
+  schwarzmarkt:
+    description: Der Schwarzmarkt (ein Item am Tag, nachts geöffnet)
+    usage: /schwarzmarkt
+    aliases: [sm, blackmarket]
+  kopfgeld:
+    description: Kopfgelder auf Spieler aussetzen
+    usage: /kopfgeld
+    aliases: [bounty]
+  freecam:
+    description: Schaltet die Freecam ein oder aus
+    usage: /freecam
+    aliases: [cam]
+
+  titel:
+    description: Öffnet das Titel-Menü (Titel auswählen)
+    usage: /titel
+    aliases: [title, titles]
+  aufgaben:
+    description: Zeigt die täglichen Aufgaben und deine Login-Serie
+    usage: /aufgaben
+    aliases: [quests, daily]
+  profil:
+    description: "Zeigt das Profil eines Spielers (ohne Namen: dein eigenes)"
+    usage: /profil [Spieler]
+    aliases: [profile, spielerprofil]
+  lizenzen:
+    description: Öffnet das Lizenz-Menü
+    usage: /lizenzen
+    aliases: [lizenz, licenses]
+  endkampf:
+    description: Infos zum Endkampf (Anmeldung geschieht am End-Portal)
+    usage: /endkampf [status|abmelden|start|stop|reset]
+    aliases: [endfight, drachenkampf]
+  termine:
+    description: Zeigt die Termine (Serverstart, Nether, Endkampf) mit Countdown
+    usage: /termine
+    aliases: [countdown, termin]
+  heute:
+    description: Zeigt, was heute offen ist (Aufgaben, Tiefenmine, Großhandel)
+    usage: /heute
+  ausdauer:
+    description: Zeigt deine Ausdauer für Tiefenmine, Expeditionen und Verteidigung
+    usage: /ausdauer
+    aliases: [stamina, energie]
+  umlauf:
+    description: Zeigt, wie viele Coins gerade im Umlauf sind (für alle)
+    usage: /umlauf
+    aliases: [geldumlauf, wirtschaft]
+  ruhemodus:
+    description: Schaltet den Ruhemodus ein oder aus (Login-Serie reißt nicht, z. B. im Urlaub)
+    usage: /ruhemodus
+    aliases: [urlaub, restmode]
+  fluestern:
+    description: Schreibt einem Spieler eine private Nachricht, die nur er sieht
+    usage: /flüstern [Spieler] [Nachricht]
+    aliases: [flüstern, flustern, whisper]
+  farmwelt:
+    description: Teleportiert dich zum heutigen Farm-Punkt (weit weg vom Spawn)
+    usage: /farmwelt
+    aliases: [farm, farmworld]
+
+permissions:
+  coinshop.admin:
+    description: Darf Coins verwalten und den Server-Shop zurücksetzen
+    default: op
+  coinshop.netherbypass:
+    description: Darf den Nether auch vor der Öffnung betreten
+    default: false
+  coinshop.endbypass:
+    description: Darf das End auch vor dem Endkampf betreten
+    default: false
